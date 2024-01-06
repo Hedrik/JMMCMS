@@ -1,0 +1,494 @@
+/*
+ * ExampleClient.java
+ *
+ * Created on August 7, 2002, 11:37 PM
+ */
+
+/*
+ * Part of the Java Massively Multi-Client Mutli-Server library.
+ * Copyright (C) 2004 Richard Arnold Mead
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
+package com.InfoMontage.example.ClientServer;
+
+import com.InfoMontage.helper.clientServer.DefaultCommConstants.*;
+
+/**
+ *
+ * @author Richard A. Mead <BR> Information Montage
+ */
+
+public class ExampleClient extends javax.swing.JFrame
+implements com.InfoMontage.helper.clientServer.ClientApp {
+    
+    //    public ClientServer.ClientApp.MyClient myClient;
+    //    public ClientApp.MyClient myClient;
+    public com.InfoMontage.helper.clientServer.Client myClient;
+    
+    //    public class MyClient extends com.InfoMontage.helper.clientServer.Client {
+    
+    //        ClientApp myApp;
+    
+    //        public MyClient(ClientApp a) {
+    //        public MyClient(ClientApp a) {
+    //            super(a);
+    //            myApp=a;
+    //        }
+    
+    public void setStatusDisplay(String statusType, String msg) {
+        if (statusType=="Heartbeat")
+            this.doHB();
+        else
+            this.setStatusDisplay(statusType+": "+msg);
+    }
+    
+    //        protected void setUserLogin(com.InfoMontage.helper.clientServer.ClientServerSocket s, byte lrf) {
+    public void setUserLogin(com.InfoMontage.helper.clientServer.ClientServerSocket s, byte lrf) {
+        if (lrf==CommTrans.LoginRequiresNoAuthentication) {
+            s.put(CommTrans.CommTagLoginNone);
+        } else if (lrf==CommTrans.LoginRequiresNameOnly) {
+            s.put(CommTrans.CommTagLoginName,loginNameTextField.getText());
+        } else if (lrf==CommTrans.LoginRequiresPasswordOnly) {
+            s.put(CommTrans.CommTagLoginPasswd,loginPasswordField.getPassword().toString());
+        } else if (lrf==CommTrans.LoginRequiresNameAndPassword) {
+            s.put(CommTrans.CommTagLoginName,loginNameTextField.getText())
+            .put(CommTrans.CommTagLoginPasswd,loginPasswordField.getPassword().toString());
+        }
+    }
+    
+    public void serverConnectionAborted() {
+        this.setStatusDisplay("ALERT: Server connection aborted!!");
+        this.connectButton.setText("Connect");
+        this.loginButton.setText("Log in");
+        this.connectButton.paintImmediately(this.connectButton.getBounds());
+        this.loginButton.paintImmediately(this.loginButton.getBounds());
+    }
+    
+    public boolean acceptRecievedMsg(com.InfoMontage.helper.clientServer.ClientServerSocket s) {
+        return false;
+    }
+    
+    //    }
+    
+    
+    synchronized public void setBorderTitle(javax.swing.JScrollPane p, String t) {
+        synchronized (p) {
+            javax.swing.border.TitledBorder tb
+            =(javax.swing.border.TitledBorder)p.getViewportBorder();
+            if ( ! tb.getTitle().equals(t) ) {
+                tb.setTitle(t);
+                p.paintImmediately(p.getBounds());
+            }
+        }
+    }
+    
+    public void setStatusDisplay( String s ) {
+        synchronized (statusDisplayTextArea) {
+            statusDisplayTextArea.append(s+"\n");
+            statusDisplayTextArea.paintImmediately(statusDisplayTextArea.getBounds());
+        }
+    }
+    
+    public void doHB() {
+        synchronized (heartBeatIcon) {
+            heartBeatIcon.setEnabled(!heartBeatIcon.isEnabled());
+            heartBeatIcon.paintImmediately(heartBeatIcon.getBounds());
+        }
+    }
+    
+    /** Creates new form Exploitation */
+    public ExampleClient() {
+        
+        initComponents();
+        //        new com.InfoMontage.helper.clientServer.DefaultCommConstants();
+        
+        //        clientVersionDisplay.setText(com.InfoMontage.helper.clientServer.Client.ClientCodeVersion);
+        clientVersionDisplay.setText(com.InfoMontage.helper.clientServer.Client.ClientCodeVersion);
+        
+        //        myClient = new ClientServer.ExampleClient.MyClient(this);
+        //        myClient = new ExampleClient.MyClient(this);
+        myClient = new com.InfoMontage.helper.clientServer.Client(this);
+    }
+    
+    
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    private void initComponents() {//GEN-BEGIN:initComponents
+        clientCodeVersionPanel = new javax.swing.JPanel();
+        clientVersionLabel = new javax.swing.JLabel();
+        clientVersionDisplay = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        heartBeatIcon = new javax.swing.JLabel();
+        formNameLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        statusDisplayScrollPane = new javax.swing.JScrollPane();
+        statusDisplayTextArea = new javax.swing.JTextArea();
+        connectionInfoPanel = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        connectionAddressLabel = new javax.swing.JLabel();
+        connectionAddressTextField = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        connectionPortLabel = new javax.swing.JLabel();
+        connectionPortTextField = new javax.swing.JTextField();
+        connectButton = new javax.swing.JButton();
+        loginInfoPanel = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        loginNameLabel = new javax.swing.JLabel();
+        loginNameTextField = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        loginPasswordLabel = new javax.swing.JLabel();
+        loginPasswordField = new javax.swing.JPasswordField();
+        loginButton = new javax.swing.JButton();
+        menuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        openMenuItem = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
+        saveAsMenuItem = new javax.swing.JMenuItem();
+        exitMenuItem = new javax.swing.JMenuItem();
+        editMenu = new javax.swing.JMenu();
+        cutMenuItem = new javax.swing.JMenuItem();
+        copyMenuItem = new javax.swing.JMenuItem();
+        pasteMenuItem = new javax.swing.JMenuItem();
+        deleteMenuItem = new javax.swing.JMenuItem();
+        helpMenu = new javax.swing.JMenu();
+        contentsMenuItem = new javax.swing.JMenuItem();
+        aboutMenuItem = new javax.swing.JMenuItem();
+
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                exitForm(evt);
+            }
+        });
+
+        clientCodeVersionPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 5, 1));
+
+        clientCodeVersionPanel.setMaximumSize(new java.awt.Dimension(32767, 16));
+        clientCodeVersionPanel.setMinimumSize(new java.awt.Dimension(170, 16));
+        clientCodeVersionPanel.setPreferredSize(new java.awt.Dimension(170, 16));
+        clientVersionLabel.setFont(new java.awt.Font("Dialog", 0, 10));
+        clientVersionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        clientVersionLabel.setLabelFor(clientVersionDisplay);
+        clientVersionLabel.setText("using Client code version:");
+        clientVersionLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        clientCodeVersionPanel.add(clientVersionLabel);
+
+        clientVersionDisplay.setFont(new java.awt.Font("Dialog", 0, 10));
+        clientVersionDisplay.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        clientVersionDisplay.setText("0.0.0.0");
+        clientVersionDisplay.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        clientVersionDisplay.setMaximumSize(new java.awt.Dimension(36, 14));
+        clientVersionDisplay.setMinimumSize(new java.awt.Dimension(24, 14));
+        clientVersionDisplay.setPreferredSize(new java.awt.Dimension(34, 14));
+        clientCodeVersionPanel.add(clientVersionDisplay);
+
+        getContentPane().add(clientCodeVersionPanel);
+
+        jPanel8.setLayout(new java.awt.BorderLayout());
+
+        heartBeatIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        heartBeatIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/InfoMontage/example/ClientServer/Heart_full.png")));
+        heartBeatIcon.setAlignmentX(0.5F);
+        heartBeatIcon.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/com/InfoMontage/example/ClientServer/Heart_disabled.png")));
+        heartBeatIcon.setDoubleBuffered(true);
+        heartBeatIcon.setMaximumSize(new java.awt.Dimension(39, 50));
+        heartBeatIcon.setMinimumSize(new java.awt.Dimension(35, 30));
+        heartBeatIcon.setPreferredSize(new java.awt.Dimension(39, 50));
+        heartBeatIcon.setEnabled(false);
+        heartBeatIcon.setVisible(false);
+        jPanel8.add(heartBeatIcon, java.awt.BorderLayout.WEST);
+
+        formNameLabel.setFont(new java.awt.Font("Arial Narrow", 2, 24));
+        formNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        formNameLabel.setLabelFor(this);
+        formNameLabel.setText("Example Client Application");
+        formNameLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        formNameLabel.setAlignmentX(0.5F);
+        formNameLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel8.add(formNameLabel, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel8);
+
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.X_AXIS));
+
+        statusDisplayTextArea.setBackground(new java.awt.Color(204, 204, 204));
+        statusDisplayTextArea.setEditable(false);
+        statusDisplayTextArea.setFont(new java.awt.Font("Dialog", 0, 10));
+        statusDisplayTextArea.setMinimumSize(new java.awt.Dimension(20, 14));
+        statusDisplayTextArea.setPreferredSize(new java.awt.Dimension(300, 200));
+        statusDisplayScrollPane.setViewportView(statusDisplayTextArea);
+
+        jPanel1.add(statusDisplayScrollPane);
+
+        getContentPane().add(jPanel1);
+
+        connectionInfoPanel.setLayout(new javax.swing.BoxLayout(connectionInfoPanel, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel5.setLayout(new java.awt.GridLayout(1, 2, 3, 5));
+
+        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        jPanel6.setAlignmentX(0.0F);
+        connectionAddressLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        connectionAddressLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        connectionAddressLabel.setLabelFor(loginNameTextField);
+        connectionAddressLabel.setText("Server:");
+        connectionAddressLabel.setAlignmentX(0.5F);
+        jPanel6.add(connectionAddressLabel);
+
+        connectionAddressTextField.setMinimumSize(new java.awt.Dimension(80, 20));
+        connectionAddressTextField.setPreferredSize(new java.awt.Dimension(150, 20));
+        jPanel6.add(connectionAddressTextField);
+
+        jPanel5.add(jPanel6);
+
+        jPanel7.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        jPanel7.setMinimumSize(new java.awt.Dimension(77, 30));
+        jPanel7.setPreferredSize(new java.awt.Dimension(97, 30));
+        connectionPortLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        connectionPortLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        connectionPortLabel.setText("Port");
+        jPanel7.add(connectionPortLabel);
+
+        connectionPortTextField.setMinimumSize(new java.awt.Dimension(40, 20));
+        connectionPortTextField.setPreferredSize(new java.awt.Dimension(60, 20));
+        jPanel7.add(connectionPortTextField);
+
+        jPanel5.add(jPanel7);
+
+        connectionInfoPanel.add(jPanel5);
+
+        connectButton.setText("Connect");
+        connectButton.setAlignmentX(0.5F);
+        connectButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        connectButton.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectButtonActionPerformed(evt);
+            }
+        });
+
+        connectionInfoPanel.add(connectButton);
+
+        getContentPane().add(connectionInfoPanel);
+
+        loginInfoPanel.setLayout(new javax.swing.BoxLayout(loginInfoPanel, javax.swing.BoxLayout.Y_AXIS));
+
+        jPanel4.setLayout(new java.awt.GridLayout(1, 2, 3, 5));
+
+        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        jPanel2.setAlignmentX(0.0F);
+        loginNameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        loginNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        loginNameLabel.setLabelFor(loginNameTextField);
+        loginNameLabel.setText("Name:");
+        loginNameLabel.setAlignmentX(0.5F);
+        jPanel2.add(loginNameLabel);
+
+        loginNameTextField.setMinimumSize(new java.awt.Dimension(80, 20));
+        loginNameTextField.setPreferredSize(new java.awt.Dimension(120, 20));
+        jPanel2.add(loginNameTextField);
+
+        jPanel4.add(jPanel2);
+
+        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+        loginPasswordLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        loginPasswordLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        loginPasswordLabel.setText("Password:");
+        jPanel3.add(loginPasswordLabel);
+
+        loginPasswordField.setMinimumSize(new java.awt.Dimension(80, 20));
+        loginPasswordField.setPreferredSize(new java.awt.Dimension(120, 20));
+        jPanel3.add(loginPasswordField);
+
+        jPanel4.add(jPanel3);
+
+        loginInfoPanel.add(jPanel4);
+
+        loginButton.setText("Log in");
+        loginButton.setAlignmentX(0.5F);
+        loginButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        loginButton.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
+
+        loginInfoPanel.add(loginButton);
+
+        getContentPane().add(loginInfoPanel);
+
+        fileMenu.setText("File");
+        openMenuItem.setText("Open");
+        fileMenu.add(openMenuItem);
+
+        saveMenuItem.setText("Save");
+        fileMenu.add(saveMenuItem);
+
+        saveAsMenuItem.setText("Save As ...");
+        fileMenu.add(saveAsMenuItem);
+
+        exitMenuItem.setText("Exit");
+        fileMenu.add(exitMenuItem);
+
+        menuBar.add(fileMenu);
+
+        editMenu.setText("Edit");
+        cutMenuItem.setText("Cut");
+        editMenu.add(cutMenuItem);
+
+        copyMenuItem.setText("Copy");
+        editMenu.add(copyMenuItem);
+
+        pasteMenuItem.setText("Paste");
+        editMenu.add(pasteMenuItem);
+
+        deleteMenuItem.setText("Delete");
+        editMenu.add(deleteMenuItem);
+
+        menuBar.add(editMenu);
+
+        helpMenu.setText("Help");
+        contentsMenuItem.setText("Contents");
+        helpMenu.add(contentsMenuItem);
+
+        aboutMenuItem.setText("About");
+        helpMenu.add(aboutMenuItem);
+
+        menuBar.add(helpMenu);
+
+        setJMenuBar(menuBar);
+
+        setBounds(0, 0, 420, 300);
+    }//GEN-END:initComponents
+    
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
+        // Add your handling code here:
+        Thread ctst=new Thread("ConnectToServerThread") {
+            public void run() {
+                connectButton.setText("Connecting...");
+                connectButton.paintImmediately(connectButton.getBounds());
+                if (myClient.connectToServer())
+                    connectButton.setText("Disconnect");
+                else
+                    connectButton.setText("Connect");
+                connectButton.setSelected(false);
+                connectButton.paintImmediately(connectButton.getBounds());
+            }
+        };
+        ctst.start();
+    }//GEN-LAST:event_connectButtonActionPerformed
+    
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        // Add your handling code here:
+        Thread ctst=new Thread("LoginToServerThread") {
+            public void run() {
+                loginButton.setText("Logging in...");
+                loginButton.paintImmediately(loginButton.getBounds());
+                if (myClient.loginToServer())
+                    loginButton.setText("Log out");
+                else
+                    loginButton.setText("Log in");
+                loginButton.setSelected(false);
+                loginButton.paintImmediately(loginButton.getBounds());
+                synchronized (heartBeatIcon) {
+                    heartBeatIcon.setVisible(true);
+                }
+            }
+        };
+        ctst.start();
+    }//GEN-LAST:event_loginButtonActionPerformed
+    
+    /** Exit the Application */
+    private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
+        System.exit(0);
+    }//GEN-LAST:event_exitForm
+    
+    private static class FrameShower implements Runnable {
+        final ExampleClient frame;
+        public FrameShower(ExampleClient frame) {
+            this.frame = frame;
+        }
+        public void run() {
+            frame.show();
+        }
+    }
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        //        new ExampleClient().show();
+        Runnable runner = new FrameShower(new ExampleClient());
+        java.awt.EventQueue.invokeLater(runner);
+    }
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JPanel clientCodeVersionPanel;
+    private javax.swing.JLabel clientVersionDisplay;
+    private javax.swing.JLabel clientVersionLabel;
+    private javax.swing.JButton connectButton;
+    private javax.swing.JLabel connectionAddressLabel;
+    private javax.swing.JTextField connectionAddressTextField;
+    private javax.swing.JPanel connectionInfoPanel;
+    private javax.swing.JLabel connectionPortLabel;
+    private javax.swing.JTextField connectionPortTextField;
+    private javax.swing.JMenuItem contentsMenuItem;
+    private javax.swing.JMenuItem copyMenuItem;
+    private javax.swing.JMenuItem cutMenuItem;
+    private javax.swing.JMenuItem deleteMenuItem;
+    private javax.swing.JMenu editMenu;
+    private javax.swing.JMenuItem exitMenuItem;
+    private javax.swing.JMenu fileMenu;
+    private javax.swing.JLabel formNameLabel;
+    private javax.swing.JLabel heartBeatIcon;
+    private javax.swing.JMenu helpMenu;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JButton loginButton;
+    private javax.swing.JPanel loginInfoPanel;
+    private javax.swing.JLabel loginNameLabel;
+    private javax.swing.JTextField loginNameTextField;
+    private javax.swing.JPasswordField loginPasswordField;
+    private javax.swing.JLabel loginPasswordLabel;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem openMenuItem;
+    private javax.swing.JMenuItem pasteMenuItem;
+    private javax.swing.JMenuItem saveAsMenuItem;
+    private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JScrollPane statusDisplayScrollPane;
+    private javax.swing.JTextArea statusDisplayTextArea;
+    // End of variables declaration//GEN-END:variables
+    
+}
