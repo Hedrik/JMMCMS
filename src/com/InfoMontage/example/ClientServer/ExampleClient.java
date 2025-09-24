@@ -207,9 +207,19 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
         jPanel8.setLayout(new java.awt.BorderLayout());
 
         heartBeatIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        heartBeatIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/InfoMontage/example/ClientServer/Heart_full.png")));
+        java.net.URL imgURL = getClass().getResource("/com/InfoMontage/example/ClientServer/Heart_full.png");
+        if (imgURL != null) {
+            heartBeatIcon.setIcon(new javax.swing.ImageIcon(imgURL));
+        } else {
+            System.err.println("Resource not found: /com/InfoMontage/example/ClientServer/Heart_full.png");
+        }
         heartBeatIcon.setAlignmentX(0.5F);
-        heartBeatIcon.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/com/InfoMontage/example/ClientServer/Heart_disabled.png")));
+        java.net.URL disabledImgURL = getClass().getResource("/com/InfoMontage/example/ClientServer/Heart_disabled.png");
+        if (disabledImgURL != null) {
+            heartBeatIcon.setDisabledIcon(new javax.swing.ImageIcon(disabledImgURL));
+        } else {
+            System.err.println("Resource not found: /com/InfoMontage/example/ClientServer/Heart_disabled.png");
+        }
         heartBeatIcon.setDoubleBuffered(true);
         heartBeatIcon.setMaximumSize(new java.awt.Dimension(39, 50));
         heartBeatIcon.setMinimumSize(new java.awt.Dimension(35, 30));
@@ -434,7 +444,7 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
             this.frame = frame;
         }
         public void run() {
-            frame.show();
+            frame.setVisible(true);
         }
     }
     

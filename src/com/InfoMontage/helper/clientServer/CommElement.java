@@ -252,9 +252,7 @@ public final class CommElement {
             synchronized (b) {
                 if (d==null)
                     throw new Error("Error: Attempt to encode to null Byte!");
-                synchronized (d) {
-                    b=encode(b,d.byteValue());
-                }
+                b=encode(b,d.byteValue());
             }
             return b;
         }

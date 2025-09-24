@@ -242,18 +242,5 @@ public class ClientServerProperty {
         return propertyDescriptorArray;
     }
     
-    protected void finalize() {
-        pref=null;
-        propertyDescriptorArray[0]=null;
-        Iterator i = Arrays.asList(propertySupport
-        .getPropertyChangeListeners()).iterator();
-        while (i.hasNext()) {
-            propertySupport.removePropertyChangeListener(
-            (PropertyChangeListener)i.next());
-        }
-        i=null;
-        propertySupport=null;
-        theProperty=null;
-    }
     
 }

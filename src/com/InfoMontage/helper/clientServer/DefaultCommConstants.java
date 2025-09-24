@@ -62,13 +62,13 @@ public final class DefaultCommConstants {
         
         static {
             testProp1 =
-            new ClientServerProperty(ac,"testByteProperty",new Byte((byte)33));
+            new ClientServerProperty(ac,"testByteProperty",Byte.valueOf((byte)33));
             testProp2 =
             new ClientServerProperty(ac,"testStringProperty","String","Test");
             testProp3 =
-            new ClientServerProperty(ac,"testIntegerProperty2",new Integer(223));
+            new ClientServerProperty(ac,"testIntegerProperty2",Integer.valueOf(223));
             testProp4 =
-            new ClientServerProperty(ac,"testLongProperty",new Long(22334455));
+            new ClientServerProperty(ac,"testLongProperty",Long.valueOf(22334455));
         }
         
         /* transmission and connection protocol constants */

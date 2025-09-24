@@ -79,7 +79,7 @@
 		/>
 	</target>
 
-   	<target name="jar" depends="aspectj-compile" description="Create JAR files">
+   	<target name="jar" depends="aspectj-compile" description="Create JAR file">
 		<jar destfile="dist/Server.jar" basedir="build/classes">
             <manifest>
                 <attribute name="Main-Class" value="com.InfoMontage.example.ClientServer.ExampleServer"/>
@@ -89,6 +89,11 @@
             <manifest>
                 <attribute name="Main-Class" value="com.InfoMontage.example.ClientServer.ExampleClient"/>
             </manifest>
+            <!-- Include resource files -->
+            <fileset dir="src">
+                <include name="com/InfoMontage/example/ClientServer/Heart_full.png"/>
+                <include name="com/InfoMontage/example/ClientServer/Heart_disabled.png"/>
+            </fileset>
         </jar>
 	</target>
 

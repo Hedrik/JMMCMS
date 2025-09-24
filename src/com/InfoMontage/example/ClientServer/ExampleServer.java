@@ -184,7 +184,7 @@ clientHbsFailedTotalDisplay.setText(Integer.toString(n));
 //        serverVersionDisplay.setText(com.InfoMontage.helper.clientServer.Server.ServerCodeVersion);
         serverVersionDisplay.setText(Server.ServerCodeVersion);
         
-//        this.show();
+        //        frame.show();
         
         updateMemoryUse();
         Timer t=new Timer(1000, new ActionListener() {
@@ -594,7 +594,7 @@ clientHbsFailedTotalDisplay.setText(Integer.toString(n));
        this.frame = frame;
      }
      public void run() {
-       frame.show();
+       frame.setVisible(true); // This also needs to be replaced
        frame.start();
      }
    }

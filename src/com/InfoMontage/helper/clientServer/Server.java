@@ -399,11 +399,11 @@ public class Server {
                         //                        .put(CommTrans.CommTagHello,HelloMessage(s))
                         //                        .put(CommTrans.CommTagTransLoginReq,LoginReqs());
                         css.put(CommTrans.CommSeqBegin.buildBuffer( new Object[] {
-                            new Byte(CommTrans.CommTransVersion),
+                            Byte.valueOf(CommTrans.CommTransVersion),
 //                            HelloMessage(s),
 //                            new Byte(LoginReqs())
                             app.HelloMessage(s),
-                            new Byte(app.LoginReqs())
+                            Byte.valueOf(app.LoginReqs())
                         } ) );
                         if (css.send())
                             if (css.recv(CommTrans.ClientAcknowledgementTimeout)) {
