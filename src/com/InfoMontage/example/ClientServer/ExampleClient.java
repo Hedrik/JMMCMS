@@ -49,13 +49,21 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
     //            myApp=a;
     //        }
     
-    public void setStatusDisplay(String statusType, String msg) {
+    public void setStatusText(String statusType, String msg) {
         if (statusType=="Heartbeat")
             this.doHB();
         else
-            this.setStatusDisplay(statusType+": "+msg);
+            this.setStatusDisplay(false, statusType+": "+msg);
     }
     
+    public void updateStatusText(String statusType, String msg) {
+            this.setStatusDisplay(false, statusType+": "+msg);
+    }
+  
+    public void clearStatusText(String statusType) {
+            this.setStatusDisplay(true,"");
+    }
+       
     //        protected void setUserLogin(com.InfoMontage.helper.clientServer.ClientServerSocket s, byte lrf) {
     public void setUserLogin(com.InfoMontage.helper.clientServer.ClientServerSocket s, byte lrf) {
         if (lrf==CommTrans.LoginRequiresNoAuthentication) {
@@ -71,7 +79,7 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
     }
     
     public void serverConnectionAborted() {
-        this.setStatusDisplay("ALERT: Server connection aborted!!");
+        this.setStatusDisplay(false, "ALERT: Server connection aborted!!");
         this.connectButton.setText("Connect");
         this.loginButton.setText("Log in");
         this.connectButton.paintImmediately(this.connectButton.getBounds());
@@ -96,9 +104,12 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
         }
     }
     
-    public void setStatusDisplay( String s ) {
+    public void setStatusDisplay( Boolean clearFlag, String text ) {
         synchronized (statusDisplayTextArea) {
-            statusDisplayTextArea.append(s+"\n");
+            if (clearFlag)
+                statusDisplayTextArea.setText(text);
+            else
+                statusDisplayTextArea.append(text);
             statusDisplayTextArea.paintImmediately(statusDisplayTextArea.getBounds());
         }
     }
