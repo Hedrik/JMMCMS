@@ -27,8 +27,14 @@ replay_pid*
 .vscode/
 JMMCMS.code-workspace
 
+# IntelliJ IDEA artifacts
+.classpath
+.idea/
+
 # Large msg issue doc
 large-msg-hang.odt
 
 # Structure
 build/
+dist/
+lib/

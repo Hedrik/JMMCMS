@@ -30,7 +30,9 @@ package com.InfoMontage.helper.clientServer;
  * @author Richard A. Mead <BR> Information Montage
  */
 public interface ClientApp {
-    public void setStatusDisplay(String statusType, String msg);
+    public void setStatusText(String statusType, String msg);
+    public void appendStatusText(String statusType, String msg);
+    public void clearStatusText(String statusType);
     public void setUserLogin(ClientServerSocket s, byte loginReqsFlag);
     public boolean acceptRecievedMsg(ClientServerSocket s);
     public void serverConnectionAborted();

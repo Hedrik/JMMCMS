@@ -56,7 +56,7 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
             this.setStatusDisplay(false, statusType+": "+msg);
     }
     
-    public void updateStatusText(String statusType, String msg) {
+    public void appendStatusText(String statusType, String msg) {
             this.setStatusDisplay(false, statusType+": "+msg);
     }
   
