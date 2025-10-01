@@ -348,6 +348,7 @@ public class ClientServerSocket {
                                             ,commBuff.remaining());
                                         } catch ( SocketTimeoutException e ) {
                                             //                            System.err.println("Timeout while reading channel!");
+                                            break;
                                         }
                                         if (cnb>0) {
                                             nb+=cnb;
