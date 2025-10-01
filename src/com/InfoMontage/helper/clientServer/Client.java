@@ -1,4 +1,4 @@
-    /*
+/*
      * Client.java
      *
      * Created on July 1, 2001, 9:21 PM
@@ -297,7 +297,7 @@ public class Client {
             if (serverSocket.recv(0)) {
                 st-=System.currentTimeMillis();
                 //            System.err.println("Initial recieve took "+(-st)+" ms");
-                app.appendStatusText("Connecting", "Initial recieve took \"+(-st)+\" ms\n");
+                app.appendStatusText("Connecting", "Initial recieve took \"+(-st)+\" ms\"\n");
                 log.finer("Initial recieve took "+(-st)+" ms");
                 ne=CommElement.nextElement(serverSocket.getCommBuff());
                 if (ne==null || ne.tag!=CommTrans.CommTagTransAck) {
@@ -506,52 +506,47 @@ public class Client {
         public void run() {
             for (;;) {
                 if (client.connectedToServer && client.loggedInToServer) {
-                    client.serverSocket.lock();
-                    try {
-                        if (client.serverSocket.recv(CommSock.ReadSocketTimoutMs)
-                        && client.serverSocket.isRecvComplete()) {
-                            //                            if (client.serverSocket.getCommBuff().hasRemaining()) {
-                            // process it
-                            CommElement e=CommElement.nextElement(client.serverSocket.getCommBuff());
-                            if (e.tag==CommTrans.CommTagTransHB) {
-                                // send HB reply - nothing else with a HB, so clear ok
-                                client.serverSocket.clearCommBuff();
-                                client.serverSocket.put(CommTrans.CommTagTransHBAck).send();
+                    if (client.serverSocket.recv(CommSock.ReadSocketTimoutMs)
+                    && client.serverSocket.isRecvComplete()) {
+                        //                            if (client.serverSocket.getCommBuff().hasRemaining()) {
+                        // process it
+                        CommElement e=CommElement.nextElement(client.serverSocket.getCommBuff());
+                        if (e.tag==CommTrans.CommTagTransHB) {
+                            // send HB reply - nothing else with a HB, so clear ok
+                            client.serverSocket.clearCommBuff();
+                            client.serverSocket.put(CommTrans.CommTagTransHBAck).send();
 //                                updateStatusText("Heartbeat", "");
-                                app.appendStatusText("Heartbeat", "\n");
-                            }
-                            else // some other message - pass to client code
-                            {
-                                client.serverSocket.rewindCommBuff();
+                            app.appendStatusText("Heartbeat", "\n");
+                        }
+                        else // some other message - pass to client code
+                        {
+                            client.serverSocket.rewindCommBuff();
 //                                if (!client.acceptRecievedMsg(client.serverSocket)) {
-                                if (!client.app.acceptRecievedMsg(client.serverSocket)) {
-                                    log.severe("Recieved unparseable message!  Buffer is:\n"
-                                    +CommElement.displayByteBuffer(client.serverSocket.getCommBuff()));
-                                    client.serverSocket.clearCommBuff();
-                                    client.serverSocket.put(CommTrans.CommTagTransNakConn,"Recieved unparseable message!").send();
-                                    client.serverSocket.close();
-                                    client.serverSocket=null;
-                                    client.connectedToServer=false;
-                                    client.loggedInToServer=false;
-//                                    client.serverConnectionAborted();
-                                    client.app.serverConnectionAborted();
-                                }
-                            }
-                            //                            }
-                        } else { // bad recv or timeout
-                            if (!client.serverSocket.isConnected()) {
-                                //                        System.err.println("Recieve error!!");
-                                //                        System.err.flush();
-                                log.severe("Recieve error!!");
+                            if (!client.app.acceptRecievedMsg(client.serverSocket)) {
+                                log.severe("Recieved unparseable message!  Buffer is:\n"
+                                +CommElement.displayByteBuffer(client.serverSocket.getCommBuff()));
+                                client.serverSocket.clearCommBuff();
+                                client.serverSocket.put(CommTrans.CommTagTransNakConn,"Recieved unparseable message!").send();
                                 client.serverSocket.close();
+                                client.serverSocket=null;
                                 client.connectedToServer=false;
                                 client.loggedInToServer=false;
-//                                client.serverConnectionAborted();
+//                                    client.serverConnectionAborted();
                                 client.app.serverConnectionAborted();
                             }
                         }
-                    } finally {
-                        client.serverSocket.unlock();
+                        //                            }
+                    } else { // bad recv or timeout
+                        if (!client.serverSocket.isConnected()) {
+                            //                        System.err.println("Recieve error!!");
+                            //                        System.err.flush();
+                            log.severe("Recieve error!!");
+                            client.serverSocket.close();
+                            client.connectedToServer=false;
+                            client.loggedInToServer=false;
+//                                client.serverConnectionAborted();
+                            client.app.serverConnectionAborted();
+                        }
                     }
                 }
                 //yield();  // needed?  maybe sleep?
