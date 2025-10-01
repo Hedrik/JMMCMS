@@ -349,6 +349,7 @@ public class ClientServerSocket {
                                             ,commBuff.remaining());
                                         } catch ( SocketTimeoutException e ) {
                                             //                            System.err.println("Timeout while reading channel!");
+                                            recvOk = false;
                                             break;
                                         }
                                         if (cnb > 0) {
