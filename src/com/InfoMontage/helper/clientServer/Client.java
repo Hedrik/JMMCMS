@@ -259,7 +259,7 @@ public class Client {
         }
         
         if (CommSock.SecureConnection) {
-//            updateStatusText("Connecting", "Initiating secureure socket...");
+            app.appendStatusText("Connecting", "Initiating socket security...\n");
             st=System.currentTimeMillis();
             try {
                 ((SSLSocket)serverSocket.sock).startHandshake();
@@ -268,14 +268,15 @@ public class Client {
                 //                System.err.println(e.getMessage());
                 log.severe("Error while negotiating secure socket!"
                 +e.getMessage());
+                app.appendStatusText("Connecting", "Error while negotiating secure socket!\n");
         }
         
         if ((serverSocket!=null) && (CommSock.SecureConnection)) {
 //            updateStatusText("Connecting", "Initiating secure connection...");
-            app.appendStatusText("Connecting", "Initiating secure connection...\n");
+//            app.appendStatusText("Connecting", "Initiating secure connection...\n");
 //                e.printStackTrace();
 //                updateStatusText("Connecting", "Connection to server failed!  "
-                app.appendStatusText("Connecting", "Socket to server failed!  \n");
+                app.appendStatusText("Connecting", "Secure socket to server failed!  \n");
 //                +e.getMessage());
                 serverSocket.close();
                 serverSocket=null;
@@ -284,6 +285,7 @@ public class Client {
             st-=System.currentTimeMillis();
             //            System.err.println("Secure connection negotiation took "+(-st)+" ms");
             log.fine("Secure socket negotiation took "+(-st)+" ms");
+            app.appendStatusText("Connecting", "Socket security negotiation took \"+(-st)+\" ms\"\n");
         }
         if (serverSocket!=null) {
 //            updateStatusText("Connecting", "Initiating connection protocol...");
@@ -305,7 +307,7 @@ public class Client {
                     log.severe("Connection protocol error!\nExpected '"
                     +CommTrans.CommTagTransAck+"'\nGot "+((ne!=null)?"'"+ne.toString()+"'":CommElement.displayByteBuffer(serverSocket.commBuff)));
 //                    updateStatusText("Connecting", "Connection to server failed with login protocol error!");
-                    app.appendStatusText("Connecting", "Connection to server failed with login protocol error!\n");
+                    app.appendStatusText("Connecting", "Connection to server failed during connection protocol!\n");
                 } else {
 //                    updateStatusText("Connecting", "Recieved initial acknowledgement...");
                     app.appendStatusText("Connecting", "Recieved initial acknowledgement...\n");
@@ -317,7 +319,7 @@ public class Client {
                         log.severe("Connection protocol error!\nExpected '"
                         +CommTrans.CommTagTransVers+"'\nGot '"+ne+"'");
 //                        updateStatusText("Connecting", "Connection to server failed with login protocol error!");
-                        app.appendStatusText("Connecting", "Connection to server failed with login protocol error!\n");
+                        app.appendStatusText("Connecting", "Connection to server failed during connection protocol version exchange!\n");
                     } else {
                         byte v=ne.pByte.get();
                         if (v!=CommTrans.CommTransVersion) {
@@ -327,7 +329,7 @@ public class Client {
                             log.severe("Connection protocol error!\nExpected protocol version '"
                             +CommTrans.CommTransVersion+"'\nGot '"+v+"'");
 //                            updateStatusText("Connecting", "Connection to server failed with login protocol error!");
-                            app.appendStatusText("Connecting", "Connection to server failed with login protocol error!\n");
+                            app.appendStatusText("Connecting", "Connection to server failed - expected connection protocol version!\n");
                         } else {
                             app.appendStatusText("Connecting", "Recieved transmission protocol version ID of '"+v+"'...\n");
 //                            updateStatusText("Connecting", "Recieved transmission protocol version ID of '"+v+"'...");
@@ -339,7 +341,7 @@ public class Client {
                                 log.severe("Connection protocol error!\nExpected '"
                                 +CommTrans.CommTagHello+"'\nGot '"+ne+"'");
 //                                updateStatusText("Connecting", "Connection to server failed with login protocol error!");
-                                app.appendStatusText("Connecting", "Connection to server failed with login protocol error!\n");
+                                app.appendStatusText("Connecting", "Connection to server failed during connection protocol - expected Hello or NakConn!\n");
                             } else {
                                 if (ne.tag==CommTrans.CommTagTransNakConn) {
                                     //                                System.err.println("Got negative connect of '"+ne+"'");
@@ -355,7 +357,7 @@ public class Client {
                                     //                                System.err.flush();
                                     log.fine("Got hello of '"+ne+"'");
 //                                    updateStatusText("Welcome",ne.pString);
-                                    app.appendStatusText("Welcome",ne.pString+"\n");
+                                    app.appendStatusText("Welcome","Got Hello of "+ne.pString+"\n");
                                     ne=CommElement.nextElement(serverSocket.commBuff);
                                     if (ne==null || ne.tag!=CommTrans.CommTagTransLoginReq) {
                                         //                                    System.err.println("Login protocol error!");
@@ -364,7 +366,7 @@ public class Client {
                                         log.severe("Connection protocol error!\nExpected '"
                                         +CommTrans.CommTagTransLoginReq+"'\nGot '"+ne+"'");
 //                                        updateStatusText("Connecting", "Connection to server failed with login protocol error!");
-                                        app.appendStatusText("Connecting", "Connection to server failed with login protocol error!\n");
+                                        app.appendStatusText("Welcome", "Connection to server failed with login protocol error!\n");
                                     } else {
                                         loginReqsFlag=ne.pByte.get();
                                         while (serverSocket.commBuff.hasRemaining()) {
@@ -375,7 +377,7 @@ public class Client {
                                         }
                                         // if (sbl.length()>0)
 //                                        updateStatusText("Connecting", sb1.toString());
-                                        app.appendStatusText("Connecting", sb1.toString()+"\n");
+                                        app.appendStatusText("Welcome", sb1.toString()+"\n");
                                         serverSocket.commBuff.clear();
                                         rv=serverSocket.put(CommTrans.CommTagTransAck).send();
                                     }
