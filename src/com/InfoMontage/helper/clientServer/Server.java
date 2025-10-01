@@ -392,7 +392,7 @@ public class Server {
                     boolean validLogin = false;
                     String loginNakReason = null;
                     //                    if (css.sc!=null) {
-                    if (css!=null && css.sock!=null) {
+                    if (css!=null && css.getSock()!=null) {
                         CommElement ne;
                         //                        css.put(CommTrans.CommTagTransAck)
                         //                        .put(CommTrans.CommTagTransVers,CommTrans.CommTransVersion)
@@ -408,9 +408,9 @@ public class Server {
                         if (css.send())
                             if (css.recv(CommTrans.ClientAcknowledgementTimeout)) {
                                 // best have gotten an Ack...
-                                ne=CommElement.nextElement(css.commBuff);
+                                ne=CommElement.nextElement(css.getCommBuff());
                                 if (ne==null || ne.tag!=CommTrans.CommTagTransAck) {
-                                    css.commBuff.clear();
+                                    css.clearCommBuff();
                                     css.put(CommTrans.CommTagTransNakConn
                                     ,"Connection protocol error").send();
                                     css.close();
@@ -420,7 +420,7 @@ public class Server {
                                     // proper connection protocol...
                                     // next, the client must send login msg
                                     // which is processed by a MessageProcessor
-                                    css.commBuff.clear();
+                                    css.clearCommBuff();
                                     synchronized (clientSocketsConnecting) {
                                         clientSocketsConnecting.add(css);
                                     }
@@ -548,7 +548,7 @@ public class Server {
                         didSomething=true;
                         if (!s.recv(CommSock.PollSocketTimoutMs)) {
                             //                                    if (s.sc!=null) { // got nothing - do heartbeat processing
-                            if (s.isConnected() && s.loggedIn) { // got nothing - do heartbeat processing
+                            if (s.isConnected() && s.isLoggedIn()) { // got nothing - do heartbeat processing
                                 // HB timeout passed yet? If not, do nothing...
                                 if (s.nextHbTime<=System.currentTimeMillis()) {
                                     // already waiting for Hb?
@@ -570,9 +570,9 @@ public class Server {
                                     // clear buffer for use
                                     System.err.println("Sending '"
                                     +CommTrans.CommTagTransHB.toString()
-                                    +" to '"+s.sock.getRemoteSocketAddress().toString()
+                                    +" to '"+s.getSock().getRemoteSocketAddress().toString()
                                     +"'");
-                                    s.commBuff.clear();
+                                    s.clearCommBuff();
                                     if (s.put(CommTrans.CommTagTransHB).send()) {
                                         s.numHbAckNeeded+=1;
                                         internalUpdateHbsPending(1);
@@ -595,10 +595,10 @@ public class Server {
                             // for knowing internals (commBuff)
                             //                            while (s.isConnected()
                             //                            if (s.isConnected()
-                            //                            && (s.commBuff.get(s.commBuff.limit()-1)
+                            //                            && (s.getCommBuff().get(s.getCommBuff().limit()-1)
                             //                            !=CommTrans.CommDelimiterByte)) {
-                            //                            && s.recvComplete) {
-                            //                                s.commBuff.position(s.commBuff.limit());
+                            //                            && s.isRecvComplete()) {
+                            //                                s.getCommBuff().position(s.getCommBuff().limit());
                             //                                s.commBuff.limit(s.commBuff.capacity());
                             // following should only be needed if
                             // recv() spins rather than sleeping
@@ -611,17 +611,17 @@ public class Server {
                             //                                            e.printStackTrace();
                             //                                        }
                             //                                s.recv(CommSock.ReadSocketTimoutMs);
-                            //                                System.err.println("Recieved '"+java.nio.charset.Charset.forName("US-ASCII").decode(s.commBuff.asReadOnlyBuffer())+"'="+s.commBuff.position()+","+s.commBuff.limit()+","+s.commBuff.capacity());
+                            //                                System.err.println("Recieved '"+java.nio.charset.Charset.forName("US-ASCII").decode(s.getCommBuff().asReadOnlyBuffer())+"'="+s.getCommBuff().position()+","+s.getCommBuff().limit()+","+s.getCommBuff().capacity());
                             //                            }
                             //                                    if (s.sc.isConnected()) {
-                            if ((s.recvComplete)&&(s.isConnected())) {
-                                //                                System.err.println("Recieved '"+java.nio.charset.Charset.forName("US-ASCII").decode(s.commBuff.asReadOnlyBuffer())+"'="+s.commBuff.position()+","+s.commBuff.limit()+","+s.commBuff.capacity());
+                            if ((s.isRecvComplete())&&(s.isConnected())) {
+                                //                                System.err.println("Recieved '"+java.nio.charset.Charset.forName("US-ASCII").decode(s.getCommBuff().asReadOnlyBuffer())+"'="+s.getCommBuff().position()+","+s.getCommBuff().limit()+","+s.getCommBuff().capacity());
                                 System.err.println("Recieved '"
-                                +CommElement.displayByteBuffer(s.commBuff)
-                                +" from '"+s.sock.getRemoteSocketAddress().toString()
+                                +CommElement.displayByteBuffer(s.getCommBuff())
+                                +" from '"+s.getSock().getRemoteSocketAddress().toString()
                                 +"'");
-                                s.commBuff.mark();
-                                ne=CommElement.nextElement(s.commBuff);
+                                s.getCommBuff().mark();
+                                ne=CommElement.nextElement(s.getCommBuff());
                                 if (ne.tag==CommTrans.CommTagTransHBAck) {
                                     System.err.println("Got HB");
                                     // only one HB at a time, and HB can be only thing sent
@@ -631,7 +631,7 @@ public class Server {
                                     } else { // wierd - got HB but didn't need it
                                     }
                                 } else {
-                                    s.commBuff.reset();
+                                    s.getCommBuff().reset();
                                     com.InfoMontage.helper.clientServer.Server.ClientMessageProcessor tmpt=null;
                                     while (tmpt==null)
                                         tmpt=(com.InfoMontage.helper.clientServer.Server.ClientMessageProcessor)inactiveMessageProcessorThreadsList.remove(0);
@@ -641,7 +641,7 @@ public class Server {
                                     tmpt.start();
                                 }
                                 // clear the input
-                                s.commBuff.clear();
+                                s.clearCommBuff();
                             } // else recieve failed - just continue
                             // (cleanup will happen next pass thru loop)
                             // or recv not yet complete
@@ -709,34 +709,34 @@ public class Server {
             boolean validLogin = false;
             String loginNakReason = null;
             if (s!=null) {
-                b=s.commBuff.asReadOnlyBuffer();
+                b=s.getCommBuff().asReadOnlyBuffer();
                 ne=CommElement.nextElement(b);
                 if (ne==null) {
                     System.err.println("Recieved unparseable message!  Buffer is:\n"
-                    +CommElement.displayByteBuffer(s.commBuff));
+                    +CommElement.displayByteBuffer(s.getCommBuff()));
                     System.err.flush();
-                    s.commBuff.clear();
+                    s.clearCommBuff();
                     s.put(CommTrans.CommTagTransNakConn,"Recieved unparseable message!").send();
                     s.close();
                     s=null;
                 } else {
                     if (ne.tag==CommTrans.CommTagLoginAttempt) {
-                        if (s.loggedIn) {
+                        if (s.isLoggedIn()) {
                             System.err.println("Relogin attempted!  Buffer is:\n"
-                            +CommElement.displayByteBuffer(s.commBuff));
+                            +CommElement.displayByteBuffer(s.getCommBuff()));
                             System.err.flush();
-                            s.commBuff.clear();
+                            s.clearCommBuff();
                             s.put(CommTrans.CommTagTransNakConn,"Already logged in!").send();
                         } else {
                             internalUpdateClientsLoggingIn(1);
                             b=null;
-                            ne=CommElement.nextElement(s.commBuff);
+                            ne=CommElement.nextElement(s.getCommBuff());
 //                            UserData u=ProcessLogin(s);
                             UserData u=app.ProcessLogin(s);
                             if (u==null) {
                                 System.err.println("Invalid login attempt!");
                                 System.err.flush();
-                                s.commBuff.clear();
+                                s.clearCommBuff();
                                 s.put(CommTrans.CommTagTransNakConn,"Login authorization failed!").send();
                             } else
                                 synchronized (clientSockets) {
@@ -781,35 +781,35 @@ public class Server {
                                     }
                                     if (validLogin) {
                                         // valid login, acknowledge it
-                                        s.commBuff.clear();
+                                        s.clearCommBuff();
                                         s.put(CommTrans.CommSeqLoginSuccess.buildBuffer(new Object[] {
 //                                            WelcomeMessage(u) } ) );
                                             app.WelcomeMessage(u) } ) );
                                             s.send();
-                                            s.loggedIn=true;
+                                            s.setLoggedIn(true);
                                             internalUpdateClientsLoggedIn(1);
                                             s.nextHbTime=System.currentTimeMillis()+CommTrans.HeartbeatTimeoutMs;
                                     } else {
                                         // login invalid, negative acknowledge
-                                        s.commBuff.clear();
+                                        s.clearCommBuff();
                                         s.put(CommTrans.CommTagTransNakConn,loginNakReason).send();
                                     }
                                     internalUpdateClientsLoggingIn(-1);
                         }
                     } else {
-                        if (!s.loggedIn) { // should check for re-connect?
+                        if (!s.isLoggedIn()) { // should check for re-connect?
                             System.err.println("Recieved non-login message before login!  Buffer is:\n"
-                            +CommElement.displayByteBuffer(s.commBuff));
+                            +CommElement.displayByteBuffer(s.getCommBuff()));
                             System.err.flush();
-                            s.commBuff.clear();
+                            s.clearCommBuff();
                             s.put(CommTrans.CommTagTransNakConn,"Recieved non-login message before login!").send();
                         } else {
 //                            if (!ProcessClientMessage(s)) {
                             if (!app.ProcessClientMessage(s)) {
                                 System.err.println("Recieved unparseable message!  Buffer is:\n"
-                                +CommElement.displayByteBuffer(s.commBuff));
+                                +CommElement.displayByteBuffer(s.getCommBuff()));
                                 System.err.flush();
-                                s.commBuff.clear();
+                                s.clearCommBuff();
                                 s.put(CommTrans.CommTagTransNakConn,"Recieved unparseable message!").send();
                                 s.close();
                                 s=null;

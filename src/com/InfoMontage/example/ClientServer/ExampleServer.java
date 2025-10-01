@@ -151,7 +151,7 @@ clientHbsFailedTotalDisplay.setText(Integer.toString(n));
 //        protected com.InfoMontage.helper.clientServer.UserData ProcessLogin(com.InfoMontage.helper.clientServer.ClientServerSocket s) {
         public UserData ProcessLogin(ClientServerSocket s) {
             MyUserData u=null;
-            CommElement e=CommElement.nextElement(s.commBuff);
+            CommElement e=CommElement.nextElement(s.getCommBuff());
             if (e != null && e.tag==CommTrans.CommTagLoginNone) {
                 System.err.println("Proper login tag '"+e.tag+"'");
                 u=new MyUserData();
