@@ -262,7 +262,7 @@ public class Client {
             app.appendStatusText("Connecting", "Initiating socket security...\n");
             st=System.currentTimeMillis();
             try {
-                ((SSLSocket)serverSocket.sock).startHandshake();
+                ((SSLSocket)serverSocket.getSock()).startHandshake();
             } catch(IOException e) {
                 //                System.err.println("Error while negotiating secure connection!");
                 //                System.err.println(e.getMessage());
@@ -299,19 +299,19 @@ public class Client {
                 //            System.err.println("Initial recieve took "+(-st)+" ms");
                 app.appendStatusText("Connecting", "Initial recieve took \"+(-st)+\" ms\n");
                 log.finer("Initial recieve took "+(-st)+" ms");
-                ne=CommElement.nextElement(serverSocket.commBuff);
+                ne=CommElement.nextElement(serverSocket.getCommBuff());
                 if (ne==null || ne.tag!=CommTrans.CommTagTransAck) {
                     //                System.err.println("Login protocol error!");
                     //                System.err.println("Expected '"+CommTrans.CommTagTransAck+"'");
                     //                System.err.println("Got '"+ne+"'");
                     log.severe("Connection protocol error!\nExpected '"
-                    +CommTrans.CommTagTransAck+"'\nGot "+((ne!=null)?"'"+ne.toString()+"'":CommElement.displayByteBuffer(serverSocket.commBuff)));
+                    +CommTrans.CommTagTransAck+"'\nGot "+((ne!=null)?"'"+ne.toString()+"'":CommElement.displayByteBuffer(serverSocket.getCommBuff())));
 //                    updateStatusText("Connecting", "Connection to server failed with login protocol error!");
                     app.appendStatusText("Connecting", "Connection to server failed during connection protocol!\n");
                 } else {
 //                    updateStatusText("Connecting", "Recieved initial acknowledgement...");
                     app.appendStatusText("Connecting", "Recieved initial acknowledgement...\n");
-                    ne=CommElement.nextElement(serverSocket.commBuff);
+                    ne=CommElement.nextElement(serverSocket.getCommBuff());
                     if (ne==null || ne.tag!=CommTrans.CommTagTransVers) {
                         //                    System.err.println("Login protocol error!");
                         //                    System.err.println("Expected '"+CommTrans.CommTagTransVers+"'");
@@ -333,7 +333,7 @@ public class Client {
                         } else {
                             app.appendStatusText("Connecting", "Recieved transmission protocol version ID of '"+v+"'...\n");
 //                            updateStatusText("Connecting", "Recieved transmission protocol version ID of '"+v+"'...");
-                            ne=CommElement.nextElement(serverSocket.commBuff);
+                            ne=CommElement.nextElement(serverSocket.getCommBuff());
                             if (ne==null || (ne.tag!=CommTrans.CommTagHello && ne.tag!=CommTrans.CommTagTransNakConn)) {
                                 //                            System.err.println("Login protocol error!");
                                 //                            System.err.println("Expected '"+CommTrans.CommTagHello+"'");
@@ -358,7 +358,7 @@ public class Client {
                                     log.fine("Got hello of '"+ne+"'");
 //                                    updateStatusText("Welcome",ne.pString);
                                     app.appendStatusText("Welcome","Got Hello of "+ne.pString+"\n");
-                                    ne=CommElement.nextElement(serverSocket.commBuff);
+                                    ne=CommElement.nextElement(serverSocket.getCommBuff());
                                     if (ne==null || ne.tag!=CommTrans.CommTagTransLoginReq) {
                                         //                                    System.err.println("Login protocol error!");
                                         //                                    System.err.println("Expected '"+CommTrans.CommTagTransLoginReq+"'");
@@ -369,8 +369,8 @@ public class Client {
                                         app.appendStatusText("Welcome", "Connection to server failed with login protocol error!\n");
                                     } else {
                                         loginReqsFlag=ne.pByte.get();
-                                        while (serverSocket.commBuff.hasRemaining()) {
-                                            ne=CommElement.nextElement(serverSocket.commBuff);
+                                        while (serverSocket.getCommBuff().hasRemaining()) {
+                                            ne=CommElement.nextElement(serverSocket.getCommBuff());
                                             if (ne==null)
                                                 break;
                                             sb1.append(ne.toString()+" ");
@@ -378,7 +378,7 @@ public class Client {
                                         // if (sbl.length()>0)
 //                                        updateStatusText("Connecting", sb1.toString());
                                         app.appendStatusText("Welcome", sb1.toString()+"\n");
-                                        serverSocket.commBuff.clear();
+                                        serverSocket.clearCommBuff();
                                         rv=serverSocket.put(CommTrans.CommTagTransAck).send();
                                     }
                                 }
@@ -417,7 +417,7 @@ public class Client {
             //            log.severe("!!severSocket="+serverSocket+" reports it is "
             //            +(((serverSocket !=null) && (serverSocket.isConnected()))?"":"NOT ")
             //            +"connected\nand var connectedToServer is "+connectedToServer);
-            serverSocket.commBuff.clear();
+            serverSocket.clearCommBuff();
             //            log.severe("!!!severSocket="+serverSocket+" reports it is "
             //            +(((serverSocket !=null) && (serverSocket.isConnected()))?"":"NOT ")
             //            +"connected\nand var connectedToServer is "+connectedToServer);
@@ -443,7 +443,7 @@ public class Client {
             
             // should timeout here and inform app via callback
             if (serverSocket.recv(0)) {
-                ne=CommElement.nextElement(serverSocket.commBuff);
+                ne=CommElement.nextElement(serverSocket.getCommBuff());
                 if (ne==null || ne.tag!=CommTrans.CommTagTransAck) {
                     //                                        System.err.println("Login protocol error!");
                     //                                        System.err.println("Expected '"+CommTrans.CommTagTransAck+"'");
@@ -453,7 +453,7 @@ public class Client {
 //                    updateStatusText("Connecting", "Connection to server failed with login protocol error!");
                     app.appendStatusText("Connecting", "Connection to server failed with login protocol error!\n");
                 } else {
-                    ne=CommElement.nextElement(serverSocket.commBuff);
+                    ne=CommElement.nextElement(serverSocket.getCommBuff());
                     if (ne==null || ne.tag!=CommTrans.CommTagWelcomeMsg) {
                         //                                            System.err.println("Login protocol error!");
                         //                                            System.err.println("Expected '"+CommTrans.CommTagWelcomeMsg+"'");
@@ -471,8 +471,8 @@ public class Client {
 //                        updateStatusText("Welcome",ne.pString);
                         app.appendStatusText("Welcome",ne.pString+"\n");
                         rv=true;
-                        while (serverSocket.commBuff.hasRemaining()) {
-                            ne=CommElement.nextElement(serverSocket.commBuff);
+                        while (serverSocket.getCommBuff().hasRemaining()) {
+                            ne=CommElement.nextElement(serverSocket.getCommBuff());
                             if (ne==null)
                                 break;
                             //                                                System.err.println("Got additional of '"+ne+"'");
@@ -483,12 +483,12 @@ public class Client {
                         }
 //                        updateStatusText("Connecting", sb1.toString());
                         app.appendStatusText("Connecting", sb1.toString()+"\n");
-                        serverSocket.commBuff.clear();
+                        serverSocket.clearCommBuff();
                     }
                 }
             }
         }
-        serverSocket.loggedIn=rv;
+        serverSocket.setLoggedIn(rv);
         loggedInToServer=rv;
         return rv;
     }
@@ -506,27 +506,28 @@ public class Client {
         public void run() {
             for (;;) {
                 if (client.connectedToServer && client.loggedInToServer) {
-                    synchronized (client.serverSocket) {
+                    client.serverSocket.lock();
+                    try {
                         if (client.serverSocket.recv(CommSock.ReadSocketTimoutMs)
-                        && client.serverSocket.recvComplete) {
-                            //                            if (client.serverSocket.commBuff.hasRemaining()) {
+                        && client.serverSocket.isRecvComplete()) {
+                            //                            if (client.serverSocket.getCommBuff().hasRemaining()) {
                             // process it
-                            CommElement e=CommElement.nextElement(client.serverSocket.commBuff);
+                            CommElement e=CommElement.nextElement(client.serverSocket.getCommBuff());
                             if (e.tag==CommTrans.CommTagTransHB) {
                                 // send HB reply - nothing else with a HB, so clear ok
-                                client.serverSocket.commBuff.clear();
+                                client.serverSocket.clearCommBuff();
                                 client.serverSocket.put(CommTrans.CommTagTransHBAck).send();
 //                                updateStatusText("Heartbeat", "");
                                 app.appendStatusText("Heartbeat", "\n");
                             }
                             else // some other message - pass to client code
                             {
-                                client.serverSocket.commBuff.rewind();
+                                client.serverSocket.rewindCommBuff();
 //                                if (!client.acceptRecievedMsg(client.serverSocket)) {
                                 if (!client.app.acceptRecievedMsg(client.serverSocket)) {
                                     log.severe("Recieved unparseable message!  Buffer is:\n"
-                                    +CommElement.displayByteBuffer(client.serverSocket.commBuff));
-                                    client.serverSocket.commBuff.clear();
+                                    +CommElement.displayByteBuffer(client.serverSocket.getCommBuff()));
+                                    client.serverSocket.clearCommBuff();
                                     client.serverSocket.put(CommTrans.CommTagTransNakConn,"Recieved unparseable message!").send();
                                     client.serverSocket.close();
                                     client.serverSocket=null;
@@ -549,6 +550,8 @@ public class Client {
                                 client.app.serverConnectionAborted();
                             }
                         }
+                    } finally {
+                        client.serverSocket.unlock();
                     }
                 }
                 //yield();  // needed?  maybe sleep?

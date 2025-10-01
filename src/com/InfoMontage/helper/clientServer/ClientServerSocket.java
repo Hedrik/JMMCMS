@@ -30,6 +30,7 @@ import java.nio.*;
 import java.nio.channels.*;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.*; 
 import com.InfoMontage.helper.clientServer.DefaultCommConstants.*;
 import com.InfoMontage.helper.clientServer.CommElement.*;
@@ -39,19 +40,20 @@ import com.InfoMontage.helper.clientServer.CommElement.*;
  * @author Richard A. Mead <BR> Information Montage
  */
 public class ClientServerSocket {
+    private final ReentrantLock lock = new ReentrantLock();
     //    public SocketChannel s=null;
-    public volatile Socket sock=null;
-    public volatile ByteBuffer commBuff=null;
+    private volatile Socket sock=null;
+    private volatile ByteBuffer commBuff=null;
     private InputStream inStream=null;
     private OutputStream outStream=null;
     public ByteBuffer inBuff=null;
     public ByteBuffer outBuff=null;
     public Set buffPool=null;
-    public volatile boolean loggedIn=false;
+    private volatile boolean loggedIn=false;
     public volatile int numHbAckNeeded=0;
     public volatile long nextHbTime=0;
     public volatile int numFailedHbs=0;
-    public volatile boolean recvComplete=false;
+    private volatile boolean recvComplete=false;
     
     //    public ClientServerSocket_New(SocketChannel sockCh) {
     public ClientServerSocket(Socket s) {
@@ -161,17 +163,49 @@ public class ClientServerSocket {
             }
         }
     }
+
+    public void lock() {
+        lock.lock();
+    }
+
+    public void unlock() {
+        lock.unlock();
+    }
+
+    public Socket getSock() {
+        return sock;
+    }
+
+    public ByteBuffer getCommBuff() {
+        return commBuff;
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
+    public boolean isRecvComplete() {
+        return recvComplete;
+    }
     
     public boolean isConnected() {
-        synchronized (this) {
+        lock.lock();
+        try {
             return ((sock != null) && (!sock.isClosed()) && (sock.isBound())
             && (!sock.isInputShutdown()) && (!sock.isOutputShutdown())
             && (sock.isConnected()) && (commBuff != null));
+        } finally {
+            lock.unlock();
         }
     }
     
     public void close() {
-        synchronized (this) {
+        lock.lock();
+        try {
             //        if (sc!=null)
             try {
                 if (inStream!=null) {
@@ -209,12 +243,15 @@ public class ClientServerSocket {
                 }
             }
             recvComplete=false;
+        } finally {
+            lock.unlock();
         }
     }
     
     public boolean send() {
         boolean sendOk = true;
-        synchronized (this) {
+        lock.lock();
+        try {
             recvComplete=false;
             //        if ((sc==null)||(commBuff==null)) {
             if ((sock==null)||(commBuff==null)) {
@@ -263,13 +300,16 @@ public class ClientServerSocket {
                             System.err.flush();
                         }
                     }
+        } finally {
+            lock.unlock();
         }
         return sendOk;
     }
     
     public boolean recv(long t) {
         boolean recvOk = true;
-        synchronized (this) {
+        lock.lock();
+        try {
             recvComplete=false;
             long tot=System.currentTimeMillis()+t;
             int cnb=0, nb=0;
@@ -384,6 +424,8 @@ public class ClientServerSocket {
                     }
                 }
             }
+        } finally {
+            lock.unlock();
         }
         return recvOk;
     }
@@ -402,38 +444,75 @@ public class ClientServerSocket {
     }
     
     public ClientServerSocket put(CommTag t) {
-        synchronized (this) {
+        lock.lock();
+        try {
             t.encode(commBuff);
             return this;
+        } finally {
+            lock.unlock();
         }
     }
     
     public ClientServerSocket put(CommTag t, byte b) {
-        synchronized (this) {
+        lock.lock();
+        try {
             t.encode(commBuff,b);
             return this;
+        } finally {
+            lock.unlock();
         }
     }
     
     public ClientServerSocket put(CommTag t, byte[] b) {
-        synchronized (this) {
+        lock.lock();
+        try {
             t.encode(commBuff,b);
             return this;
+        } finally {
+            lock.unlock();
         }
     }
     
     public ClientServerSocket put(CommTag t, String s) {
-        synchronized (this) {
+        lock.lock();
+        try {
             t.encode(commBuff,s);
             return this;
+        } finally {
+            lock.unlock();
         }
     }
     
     public ClientServerSocket put(ByteBuffer b) {
-        synchronized (this) {
+        lock.lock();
+        try {
             // System.err.println("Putting "+CommElement.displayByteBuffer(b));
             commBuff.put(b);
             return this;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void clearCommBuff() {
+        lock.lock();
+        try {
+            if (commBuff != null) {
+                commBuff.clear();
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void rewindCommBuff() {
+        lock.lock();
+        try {
+            if (commBuff != null) {
+                commBuff.rewind();
+            }
+        } finally {
+            lock.unlock();
         }
     }
     
