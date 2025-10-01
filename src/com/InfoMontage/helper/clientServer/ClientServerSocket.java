@@ -345,7 +345,7 @@ public class ClientServerSocket {
                                         try {
                                             cnb=is.read(commBuff.array()
                                             ,commBuff.arrayOffset()+commBuff.position()
-                                            ,is.available());
+                                            ,commBuff.remaining());
                                         } catch ( SocketTimeoutException e ) {
                                             //                            System.err.println("Timeout while reading channel!");
                                         }
