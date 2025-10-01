@@ -350,31 +350,22 @@ public class ClientServerSocket {
                                             //                            System.err.println("Timeout while reading channel!");
                                             break;
                                         }
-                                        if (cnb>0) {
-                                            nb+=cnb;
-                                            System.err.println("recieved "+cnb+" bytes.  Subtotal="+nb);
-                                            commBuff.position(commBuff.position()+cnb);
-                                            if (!commBuff.hasRemaining()) {
-                                                if (t==0) {
+                                        if (cnb > 0) {
+                                            nb += cnb;
+                                            System.err.println("recieved " + cnb + " bytes.  Subtotal=" + nb);
+                                            commBuff.position(commBuff.position() + cnb);
+                                            if (commBuff.get(commBuff.position() - 1) == CommTrans.CommDelimiterByte) {
+                                                cnb = -1; // Found delimiter, exit loop
+                                            } else if (!commBuff.hasRemaining()) {
+                                                if (t == 0) {
                                                     // ran out of buffer space!
-                                                    recvOk=false;
-                                                    // throw new RuntimeException("End-of-Buffer while reading channel!");
+                                                    recvOk = false;
                                                     throw new BufferUnderflowException();
-                                                    // we really should do something here... handle this better
                                                 }
                                             }
-                                            //                            else
-                                            //                                Thread.yield(); // sleep instead?
-                                        }
-                                        else {
-                                            if ((cnb==0) && (commBuff.position()>0)
-                                            && (commBuff.get(commBuff.position()-1)
-                                            ==CommTrans.CommDelimiterByte))
-                                                cnb=-1;
-                                            // next should not be necessary unless read() spins
-                                            // instead of sleeping
-                                            //                            else
-                                            //                                Thread.yield(); // sleep instead?
+                                        } else if (cnb == -1) {
+                                            // End of stream reached before finding delimiter
+                                            break;
                                         }
                                         // next should not be necessary unless read() spins
                                         // instead of sleeping
