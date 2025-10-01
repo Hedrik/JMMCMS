@@ -281,8 +281,9 @@ public class ClientServerSocket {
                             try { // keep writing until done or error
                                 //                        while (commBuff.hasRemaining()) {
                                 //                            sc.write(commBuff);
-                                sock.getOutputStream()
-                                .write(commBuff.array(),commBuff.arrayOffset(),commBuff.remaining());
+                                OutputStream os = sock.getOutputStream();
+                                os.write(commBuff.array(),commBuff.arrayOffset(),commBuff.remaining());
+                                os.flush();
                                 //                            Thread.yield(); // sleep instead?  lock on commBuff?
                                 //                        }
                                 sent=commBuff.remaining();
