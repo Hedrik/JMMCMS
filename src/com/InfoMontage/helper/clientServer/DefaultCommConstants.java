@@ -77,7 +77,7 @@ public final class DefaultCommConstants {
         public static final int CommTransIdLen = 2;
         public static final int HeartbeatTimeoutMs = 3000;
         public static final int MaxFailedHeartbeats = 5;
-        public static final int ClientAcknowledgementTimeout = HeartbeatTimeoutMs * 2;
+        public static final int ClientAcknowledgementTimeout = HeartbeatTimeoutMs * 4;
         public static final byte LoginRequiresNoAuthentication = (byte)0;
         public static final byte LoginRequiresNameOnly = (byte)1;
         public static final byte LoginRequiresPasswordOnly = (byte)2;
@@ -127,7 +127,7 @@ public final class DefaultCommConstants {
         public static final int MaxClientConnectionProcessorThreads = 10;
         public static final int MaxClientMessageProcessorThreads = 100;
         public static final int MaxClientSocketCapacity = 1000;
-        public static final int SocketTimoutMs = 2;
+        public static final int SocketTimoutMs = 2000;
         public static final long PollSocketTimoutMs = 5;
         public static final long ReadSocketTimoutMs = 50;
         public static final long ClientSocketReadPauseMs = 10;

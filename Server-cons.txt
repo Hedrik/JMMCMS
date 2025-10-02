@@ -20,79 +20,79 @@ jar:
 BUILD SUCCESSFUL
 Total time: 3 seconds
 Initializing constants
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences <init>
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences <init>
 WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 0xffffffff80000002. Windows RegCreateKeyEx(...) returned error code 5.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
 WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
 WARNING: Could not open windows registry node Software\JavaSoft\Prefs at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
 WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
 WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
 WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
 WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
 WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
 WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
 WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
 WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
 WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
-WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Problem storing system preferences at /com/InfoMontage/example/ClientServer
-flush(): Backing store not available.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
-WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
-WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
-WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
-WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
-WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
 WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
 Problem storing system preferences at /com/InfoMontage/example/ClientServer
 flush(): Backing store not available.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
 WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
 WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
 WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
 WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
 WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
-WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Problem storing system preferences at /com/InfoMontage/example/ClientServer
-flush(): Backing store not available.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
-WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
-WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
-WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
-WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
-WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
 WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
 Problem storing system preferences at /com/InfoMontage/example/ClientServer
 flush(): Backing store not available.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
 WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
-Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Problem storing system preferences at /com/InfoMontage/example/ClientServer
+flush(): Backing store not available.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Problem storing system preferences at /com/InfoMontage/example/ClientServer
+flush(): Backing store not available.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 02, 2025 4:49:49 AM java.util.prefs.WindowsPreferences openKey
 WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
 Creating connection processor threads
 Creating message processor threads
@@ -106,5 +106,183 @@ Adding 'Helo' (''=0,4,4) of {Hello, 127.0.0.1, and welcome to the Client/Server 
 Adding 'TLog' (''=0,4,4) of {0} to ''=120,4096,4096
 buildBuffer: Parsed parameters gave:
 'TAckTrVrHeloHello, 127.0.0.1, and welcome to the Client/Server code test server, using Server code version 0.8.6.2!eloHTLog'=0,125,4096
-ClientServerSocket: Send (true) of 126 bytes took 2 ms
-ClientServerSocket: Recv (false) of 0 bytes took 3 ms
+ClientServerSocket: Send (true) of 126 bytes took 1 ms
+recieved 5 bytes.  Subtotal=5
+ClientServerSocket: Recv (true) of 5 bytes took 47 ms
+Recieved 'TAck?'=0,5,4096
+Found tag 'TAck'
+ClientServerSocket: Recv (false) of 0 bytes took 2000 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2002 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2000 ms
+recieved 10 bytes.  Subtotal=10
+ClientServerSocket: Recv (true) of 10 bytes took 572 ms
+Recieved 'LginLNon?'=0,10,4096
+Found tag 'Lgin(1)'
+Found tag 'Lgin(1)'
+Found tag 'LNon'
+Proper login tag 'LNon'
+UserID is '1'
+Adding 'TAck' (''=0,4,4) to ''=0,4096,4096
+Adding 'Welc' (''=0,4,4) of {Thank you for successfully logging in!  Your user ID is '1'} to ''=4,4096,4096
+buildBuffer: Parsed parameters gave:
+'TAckWelcThank you for successfully logging in!  Your user ID is '1'cleW'=0,71,4096
+ClientServerSocket: Send (true) of 72 bytes took 0 ms
+Adding 1 connections
+New connection list has 1 connections
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2002 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60881'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 0 ms
+recieved 5 bytes.  Subtotal=5
+ClientServerSocket: Recv (true) of 5 bytes took 0 ms
+Recieved 'TrHA?'=0,5,4096
+Recieved ''TrHA?'=0,5,4096 from '127.0.0.1/127.0.0.1:60881'
+Found tag 'TrHA'
+Got HB
+ClientServerSocket: Recv (false) of 0 bytes took 2000 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60881'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 0 ms
+recieved 5 bytes.  Subtotal=5
+ClientServerSocket: Recv (true) of 5 bytes took 0 ms
+Recieved 'TrHA?'=0,5,4096
+Recieved ''TrHA?'=0,5,4096 from '127.0.0.1/127.0.0.1:60881'
+Found tag 'TrHA'
+Got HB
+ClientServerSocket: Recv (false) of 0 bytes took 2000 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60881'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 0 ms
+recieved 5 bytes.  Subtotal=5
+ClientServerSocket: Recv (true) of 5 bytes took 0 ms
+Recieved 'TrHA?'=0,5,4096
+Recieved ''TrHA?'=0,5,4096 from '127.0.0.1/127.0.0.1:60881'
+Found tag 'TrHA'
+Got HB
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60881'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 0 ms
+recieved 5 bytes.  Subtotal=5
+ClientServerSocket: Recv (true) of 5 bytes took 0 ms
+Recieved 'TrHA?'=0,5,4096
+Recieved ''TrHA?'=0,5,4096 from '127.0.0.1/127.0.0.1:60881'
+Found tag 'TrHA'
+Got HB
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60881'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 0 ms
+recieved 5 bytes.  Subtotal=5
+ClientServerSocket: Recv (true) of 5 bytes took 0 ms
+Recieved 'TrHA?'=0,5,4096
+Recieved ''TrHA?'=0,5,4096 from '127.0.0.1/127.0.0.1:60881'
+Found tag 'TrHA'
+Got HB
+ClientServerSocket creation took 0 ms
+Adding 'TAck' (''=0,4,4) to ''=0,4096,4096
+Adding 'TrVr' (''=0,4,4) of {1} to ''=4,4096,4096
+Adding 'Helo' (''=0,4,4) of {Hello, 127.0.0.1, and welcome to the Client/Server code test server, using Server code version 0.8.6.2!} to ''=9,4096,4096
+Adding 'TLog' (''=0,4,4) of {0} to ''=120,4096,4096
+buildBuffer: Parsed parameters gave:
+'TAckTrVrHeloHello, 127.0.0.1, and welcome to the Client/Server code test server, using Server code version 0.8.6.2!eloHTLog'=0,125,4096
+ClientServerSocket: Send (true) of 126 bytes took 0 ms
+recieved 5 bytes.  Subtotal=5
+ClientServerSocket: Recv (true) of 5 bytes took 44 ms
+Recieved 'TAck?'=0,5,4096
+Found tag 'TAck'
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2000 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60881'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 0 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2000 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60881'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 0 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60881'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 0 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2000 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60881'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 0 ms
+recieved 10 bytes.  Subtotal=10
+ClientServerSocket: Recv (true) of 10 bytes took 1945 ms
+Recieved 'LginLNon?'=0,10,4096
+Found tag 'Lgin(1)'
+Found tag 'Lgin(1)'
+Found tag 'LNon'
+Proper login tag 'LNon'
+UserID is '2'
+Adding 'TAck' (''=0,4,4) to ''=0,4096,4096
+Adding 'Welc' (''=0,4,4) of {Thank you for successfully logging in!  Your user ID is '2'} to ''=4,4096,4096
+buildBuffer: Parsed parameters gave:
+'TAckWelcThank you for successfully logging in!  Your user ID is '2'cleW'=0,71,4096
+ClientServerSocket: Send (true) of 72 bytes took 1 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60881'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 1 ms
+Adding 1 connections
+New connection list has 2 connections
+ClientServerSocket: Recv (false) of 0 bytes took 2003 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60883'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 0 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60881'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 0 ms
+recieved 5 bytes.  Subtotal=5
+ClientServerSocket: Recv (true) of 5 bytes took 0 ms
+Recieved 'TrHA?'=0,5,4096
+Recieved ''TrHA?'=0,5,4096 from '127.0.0.1/127.0.0.1:60883'
+Found tag 'TrHA'
+Got HB
+ClientServerSocket: Recv (false) of 0 bytes took 2001 ms
+ClientServerSocket: Recv (false) of 0 bytes took 2000 ms
+Sending 'TrHb to '127.0.0.1/127.0.0.1:60883'
+Adding 'TrHb' (''=0,4,4) to ''=0,4096,4096
+ClientServerSocket: Send (true) of 5 bytes took 1 ms
+Error while reading channel!
+Connection reset
+java.net.SocketException: Connection reset
+        at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:317)
+        at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:345)
+        at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:790)
+        at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:983)
+        at java.base/java.net.Socket$SocketInputStream.read(Socket.java:970)
+        at com.InfoMontage.helper.clientServer.ClientServerSocket.recv(ClientServerSocket.java:347)
+        at com.InfoMontage.helper.clientServer.Server$ClientChannelProcessor.run(Server.java:549)
+ClientServerSocket: Recv (false) of 0 bytes took 902 ms
+Error while reading channel!
+Connection reset
+java.net.SocketException: Connection reset
+        at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:317)
+        at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:345)
+        at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:790)
+        at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:983)
+        at java.base/java.net.Socket$SocketInputStream.read(Socket.java:970)
+        at com.InfoMontage.helper.clientServer.ClientServerSocket.recv(ClientServerSocket.java:347)
+        at com.InfoMontage.helper.clientServer.Server$ClientChannelProcessor.run(Server.java:549)
+ClientServerSocket: Recv (false) of 0 bytes took 0 ms
+Lost connection while reading client channel!
+Lost connection while reading client channel!
+PS C:\Users\Richa\OneDrive\Desktop\New folder\Documents\GitHub\JMMCMS>

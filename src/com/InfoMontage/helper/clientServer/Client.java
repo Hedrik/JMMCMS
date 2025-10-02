@@ -425,16 +425,16 @@ public class Client {
             //            log.severe("!!!!severSocket="+serverSocket+" reports it is "
             //            +(((serverSocket !=null) && (serverSocket.isConnected()))?"":"NOT ")
             //            +"connected\nand var connectedToServer is "+connectedToServer);
-            if (loginReqsFlag==CommTrans.LoginRequiresNameOnly)
+            if ((loginReqsFlag & CommTrans.LoginRequiresNameOnly) != 0)
 //                updateStatusText("Connecting", "Login requires name only.");
                 app.appendStatusText("Connecting", "Login requires name only.\n");
-            else if (loginReqsFlag==CommTrans.LoginRequiresPasswordOnly)
+            else if ((loginReqsFlag & CommTrans.LoginRequiresPasswordOnly) != 0)
 //                updateStatusText("Connecting", "Login requires password only.");
                 app.appendStatusText("Connecting", "Login requires password only.\n");
-            else if (loginReqsFlag==CommTrans.LoginRequiresNameAndPassword)
+            else if ((loginReqsFlag & CommTrans.LoginRequiresNameAndPassword) != 0)
 //                updateStatusText("Connecting", "Login requires name and password.");
                 app.appendStatusText("Connecting", "Login requires name and password.\n");
-            else if (loginReqsFlag==CommTrans.LoginRequiresNameAndPassword)
+            else if (loginReqsFlag==CommTrans.LoginRequiresNoAuthentication)
 //                updateStatusText("Connecting", "Login requires no authentication.");
                 app.appendStatusText("Connecting", "Login requires no authentication.\n");
 //            setUserLogin(serverSocket,loginReqsFlag);
@@ -520,20 +520,7 @@ public class Client {
                         }
                         else // some other message - pass to client code
                         {
-                            client.serverSocket.rewindCommBuff();
-//                                if (!client.acceptRecievedMsg(client.serverSocket)) {
-                            if (!client.app.acceptRecievedMsg(client.serverSocket)) {
-                                log.severe("Recieved unparseable message!  Buffer is:\n"
-                                +CommElement.displayByteBuffer(client.serverSocket.getCommBuff()));
-                                client.serverSocket.clearCommBuff();
-                                client.serverSocket.put(CommTrans.CommTagTransNakConn,"Recieved unparseable message!").send();
-                                client.serverSocket.close();
-                                client.serverSocket=null;
-                                client.connectedToServer=false;
-                                client.loggedInToServer=false;
-//                                    client.serverConnectionAborted();
-                                client.app.serverConnectionAborted();
-                            }
+                            // Ignore other messages
                         }
                         //                            }
                     } else { // bad recv or timeout
