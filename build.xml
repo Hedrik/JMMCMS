@@ -80,14 +80,20 @@
 	</target>
 
    	<target name="jar" depends="aspectj-compile" description="Create JAR file">
+        <mkdir dir="dist"/>
+        <manifestclasspath property="manifest.classpath" jarfile="dist/Server.jar">
+            <classpath refid="aspectj.classpath"/>
+        </manifestclasspath>
 		<jar destfile="dist/Server.jar" basedir="build/classes">
             <manifest>
                 <attribute name="Main-Class" value="com.InfoMontage.example.ClientServer.ExampleServer"/>
+                <attribute name="Class-Path" value="${manifest.classpath}"/>
             </manifest>
         </jar>
 		<jar destfile="dist/Client.jar" basedir="build/classes">
             <manifest>
                 <attribute name="Main-Class" value="com.InfoMontage.example.ClientServer.ExampleClient"/>
+                <attribute name="Class-Path" value="${manifest.classpath}"/>
             </manifest>
             <!-- Include resource files -->
             <fileset dir="src">

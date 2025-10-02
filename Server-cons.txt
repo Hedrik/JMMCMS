@@ -1,0 +1,110 @@
+Buildfile: C:\Users\Richa\OneDrive\Desktop\New folder\Documents\GitHub\JMMCMS\build.xml
+
+clean:
+   [delete] Deleting directory C:\Users\Richa\OneDrive\Desktop\New folder\Documents\GitHub\JMMCMS\build\classes
+   [delete] Deleting directory C:\Users\Richa\OneDrive\Desktop\New folder\Documents\GitHub\JMMCMS\dist
+
+java-compile:
+    [mkdir] Created dir: C:\Users\Richa\OneDrive\Desktop\New folder\Documents\GitHub\JMMCMS\build\classes
+    [javac] Compiling 13 source files to C:\Users\Richa\OneDrive\Desktop\New folder\Documents\GitHub\JMMCMS\build\classes
+    [javac] Note: Some input files use unchecked or unsafe operations.
+    [javac] Note: Recompile with -Xlint:unchecked for details.
+
+aspectj-compile:
+
+jar:
+    [mkdir] Created dir: C:\Users\Richa\OneDrive\Desktop\New folder\Documents\GitHub\JMMCMS\dist
+      [jar] Building jar: C:\Users\Richa\OneDrive\Desktop\New folder\Documents\GitHub\JMMCMS\dist\Server.jar
+      [jar] Building jar: C:\Users\Richa\OneDrive\Desktop\New folder\Documents\GitHub\JMMCMS\dist\Client.jar
+
+BUILD SUCCESSFUL
+Total time: 3 seconds
+Initializing constants
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences <init>
+WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 0xffffffff80000002. Windows RegCreateKeyEx(...) returned error code 5.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Problem storing system preferences at /com/InfoMontage/example/ClientServer
+flush(): Backing store not available.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Problem storing system preferences at /com/InfoMontage/example/ClientServer
+flush(): Backing store not available.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Problem storing system preferences at /com/InfoMontage/example/ClientServer
+flush(): Backing store not available.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Problem storing system preferences at /com/InfoMontage/example/ClientServer
+flush(): Backing store not available.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences WindowsRegOpenKey1
+WARNING: Trying to recreate Windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002.
+Oct 01, 2025 6:36:39 PM java.util.prefs.WindowsPreferences openKey
+WARNING: Could not open windows registry node Software\JavaSoft\Prefs\com\/Info/Montage\example\/Client/Server at root 0xffffffff80000002. Windows RegOpenKey(...) returned error code 2.
+Creating connection processor threads
+Creating message processor threads
+Creating client listener thread
+Starting channel processor thread
+Starting client listener thread
+ClientServerSocket creation took 1 ms
+Adding 'TAck' (''=0,4,4) to ''=0,4096,4096
+Adding 'TrVr' (''=0,4,4) of {1} to ''=4,4096,4096
+Adding 'Helo' (''=0,4,4) of {Hello, 127.0.0.1, and welcome to the Client/Server code test server, using Server code version 0.8.6.2!} to ''=9,4096,4096
+Adding 'TLog' (''=0,4,4) of {0} to ''=120,4096,4096
+buildBuffer: Parsed parameters gave:
+'TAckTrVrHeloHello, 127.0.0.1, and welcome to the Client/Server code test server, using Server code version 0.8.6.2!eloHTLog'=0,125,4096
+ClientServerSocket: Send (true) of 126 bytes took 2 ms
+ClientServerSocket: Recv (false) of 0 bytes took 3 ms
