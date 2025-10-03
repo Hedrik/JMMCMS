@@ -57,42 +57,42 @@ public class ExampleServer extends JFrame implements ServerApp {
         
         public synchronized void updateClientsConnecting(int n) {
 //            myApp.clientsConnectingDisplay.setText(Integer.toString(n));
-clientsConnectingDisplay.setText(Integer.toString(n));
+            EventQueue.invokeLater(() -> clientsConnectingDisplay.setText(Integer.toString(n)));
         }
         
         public synchronized void updateClientsConnected(int n) {
 //            myApp.clientsConnectedDisplay.setText(Integer.toString(n));
-clientsConnectedDisplay.setText(Integer.toString(n));
+            EventQueue.invokeLater(() -> clientsConnectedDisplay.setText(Integer.toString(n)));
         }
         
         public synchronized void updateClientsLoggingIn(int n) {
 //            myApp.clientsLoggingInDisplay.setText(Integer.toString(n));
-clientsLoggingInDisplay.setText(Integer.toString(n));
+            EventQueue.invokeLater(() -> clientsLoggingInDisplay.setText(Integer.toString(n)));
         }
         
         public synchronized void updateClientsLoggedIn(int n) {
 //            myApp.clientsLoggedInDisplay.setText(Integer.toString(n));
-clientsLoggedInDisplay.setText(Integer.toString(n));
+            EventQueue.invokeLater(() -> clientsLoggedInDisplay.setText(Integer.toString(n)));
         }
         
         public synchronized void updateClientsForceDisconnected(int n) {
 //            myApp.clientsForceDisconnectedDisplay.setText(Integer.toString(n));
-clientsForceDisconnectedDisplay.setText(Integer.toString(n));
+            EventQueue.invokeLater(() -> clientsForceDisconnectedDisplay.setText(Integer.toString(n)));
         }
         
         public synchronized void updateHbsPending(int n) {
 //            myApp.clientHbsPendingDisplay.setText(Integer.toString(n));
-clientHbsPendingDisplay.setText(Integer.toString(n));
+            EventQueue.invokeLater(() -> clientHbsPendingDisplay.setText(Integer.toString(n)));
         }
         
         public synchronized void updateHbsFailedCurrent(int n) {
 //            myApp.clientHbsFailedCurrentDisplay.setText(Integer.toString(n));
-clientHbsFailedCurrentDisplay.setText(Integer.toString(n));
+            EventQueue.invokeLater(() -> clientHbsFailedCurrentDisplay.setText(Integer.toString(n)));
         }
         
         public synchronized void updateHbsFailedTotal(int n) {
 //            myApp.clientHbsFailedTotalDisplay.setText(Integer.toString(n));
-clientHbsFailedTotalDisplay.setText(Integer.toString(n));
+            EventQueue.invokeLater(() -> clientHbsFailedTotalDisplay.setText(Integer.toString(n)));
         }
         
 //        protected String HelloMessage(java.nio.channels.SocketChannel sc) {
@@ -161,7 +161,19 @@ clientHbsFailedTotalDisplay.setText(Integer.toString(n));
         }
         
         public boolean ProcessClientMessage(ClientServerSocket css) {
-        return false; // No test messages as yet
+            CommElement e = CommElement.nextElement(css.getCommBuff());
+            if (e != null && e.tag == CommTrans.CommTagChatMsg) {
+                // Broadcast the message to all clients
+                for (java.util.Enumeration<ClientServerSocket> en = myServer.clientSockets.elements(); en.hasMoreElements();) {
+                    ClientServerSocket client = en.nextElement();
+                    if (client.isConnected()) {
+                        client.clearCommBuff();
+                        client.put(CommTrans.CommTagChatMsg, e.pString).send();
+                    }
+                }
+                return true;
+            }
+            return false;
         }
         
 //    }

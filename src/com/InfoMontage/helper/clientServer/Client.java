@@ -49,10 +49,8 @@ public class Client {
     ClientApp app;
     Logger log;
     
-    //    public static ClientServerSocket serverSocket;
-    public volatile static ClientServerSocket serverSocket;
-    //    public static java.nio.channels.SocketChannel serverChannel;
-    public volatile static java.net.Socket serverChannel;
+    public volatile ClientServerSocket serverSocket;
+    public volatile java.nio.channels.SocketChannel serverChannel;
     public volatile static String serverHost=CommSock.DefaultServerHostName;
     public volatile static int serverPort=CommSock.ClientConnectionListenerPort;
     private volatile boolean connectedToServer=false;
@@ -175,27 +173,32 @@ public class Client {
                 if (CommSock.SecureConnection) {
                     app.appendStatusText("Connecting", "Creating secure socket to "+serverHost+":"+serverPort+"...");
                     serverChannel
-                    //            = java.nio.channels.SocketChannel.open(new java.net.InetSocketAddress(serverHost,serverPort));
+                    = java.nio.channels.SocketChannel.open(new java.net.InetSocketAddress(serverHost,serverPort));
                     //            = SSLSocketFactory.getDefault().createSocket(serverHost, serverPort);
-                    = getSocketFactory(app, "TLS").createSocket(serverHost, serverPort);
+                    //                    = getSocketFactory(app, "TLS").createSocket(serverHost, serverPort);
                 } else {
                     // TBD: don't use default
                     app.appendStatusText("Connecting", "Creating non-secure socket to "+serverHost+":"+serverPort+"...");
                     serverChannel
-                    = SocketFactory.getDefault().createSocket(serverHost, serverPort);
+                    = java.nio.channels.SocketChannel.open(new java.net.InetSocketAddress(serverHost,serverPort));
+                    //                    = SocketFactory.getDefault().createSocket(serverHost, serverPort);
                 }
             } else {
                 app.appendStatusText("Connecting", "Using custom socket factory\n");
                 if (CommSock.SecureConnection) {
                     app.appendStatusText("Connecting", "Creating secure socket to "+serverHost+":"+serverPort+"...\n");
                     // not sure default makes sense
-                    serverChannel = SSLSocketFactory.getDefault()
-                    .createSocket(serverHost, serverPort);
+                    serverChannel
+                    = java.nio.channels.SocketChannel.open(new java.net.InetSocketAddress(serverHost,serverPort));
+                    //                    = SSLSocketFactory.getDefault()
+                    //                    .createSocket(serverHost, serverPort);
                 } else {
                     // TBD: don't use default
                     app.appendStatusText("Connecting", "Creating non-secure socket to "+serverHost+":"+serverPort+"...");
-                    serverChannel = SocketFactory.getDefault()
-                    .createSocket(serverHost, serverPort);
+                    serverChannel
+                    = java.nio.channels.SocketChannel.open(new java.net.InetSocketAddress(serverHost,serverPort));
+                    //                    = SocketFactory.getDefault()
+                    //                    .createSocket(serverHost, serverPort);
                 }
             }
         } catch( java.io.IOException e ) {
@@ -214,12 +217,12 @@ public class Client {
         app.appendStatusText("Connecting", "Socket creation took "+(-st)+" ms\n");
         if (serverChannel!=null) {
             try {
-                //                serverChannel.configureBlocking(false);
-                serverChannel.setSoLinger(false,0); // TBD: make tunable
-                serverChannel.setSoTimeout(CommSock.SocketTimoutMs);
+                serverChannel.configureBlocking(false);
+                //                serverChannel.setSoLinger(false,0); // TBD: make tunable
+                //                serverChannel.setSoTimeout(CommSock.SocketTimoutMs);
                 // IPTOS_RELIABILITY | IPTOS_LOWDELAY = 0x4 + 0x10
-                serverChannel.setTrafficClass(20);
-                serverChannel.setKeepAlive(true);
+                //                serverChannel.setTrafficClass(20);
+                //                serverChannel.setKeepAlive(true);
             } catch ( java.io.IOException e ) {
                 //                System.err.println("Error while unblocking channel!");
                 //                System.err.println(e.getMessage());
@@ -262,7 +265,7 @@ public class Client {
             app.appendStatusText("Connecting", "Initiating socket security...\n");
             st=System.currentTimeMillis();
             try {
-                ((SSLSocket)serverSocket.getSock()).startHandshake();
+                ((SSLSocket)serverSocket.getSc().socket()).startHandshake();
             } catch(IOException e) {
                 //                System.err.println("Error while negotiating secure connection!");
                 //                System.err.println(e.getMessage());
@@ -439,10 +442,9 @@ public class Client {
                 app.appendStatusText("Connecting", "Login requires no authentication.\n");
 //            setUserLogin(serverSocket,loginReqsFlag);
             app.setUserLogin(serverSocket,loginReqsFlag);
-            serverSocket.send();
             
             // should timeout here and inform app via callback
-            if (serverSocket.recv(0)) {
+            if (serverSocket.send() && serverSocket.recv(0)) {
                 ne=CommElement.nextElement(serverSocket.getCommBuff());
                 if (ne==null || ne.tag!=CommTrans.CommTagTransAck) {
                     //                                        System.err.println("Login protocol error!");
@@ -515,14 +517,24 @@ public class Client {
                             // send HB reply - nothing else with a HB, so clear ok
                             client.serverSocket.clearCommBuff();
                             client.serverSocket.put(CommTrans.CommTagTransHBAck).send();
-//                                updateStatusText("Heartbeat", "");
-                            app.appendStatusText("Heartbeat", "\n");
+                            app.setStatusText("Heartbeat", "");
+//                            app.appendStatusText("Heartbeat", "\n");
                         }
                         else // some other message - pass to client code
                         {
-                            // Ignore other messages
+                            client.serverSocket.rewindCommBuff();
+                            if (!client.app.acceptRecievedMsg(client.serverSocket)) {
+                                log.severe("Recieved unparseable message!  Buffer is:\n"
+                                +CommElement.displayByteBuffer(client.serverSocket.getCommBuff()));
+                                client.serverSocket.clearCommBuff();
+                                client.serverSocket.put(CommTrans.CommTagTransNakConn,"Recieved unparseable message!").send();
+                                client.serverSocket.close();
+                                client.serverSocket=null;
+                                client.connectedToServer=false;
+                                client.loggedInToServer=false;
+                                client.app.serverConnectionAborted();
+                            }
                         }
-                        //                            }
                     } else { // bad recv or timeout
                         if (!client.serverSocket.isConnected()) {
                             //                        System.err.println("Recieve error!!");

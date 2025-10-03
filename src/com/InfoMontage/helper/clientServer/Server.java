@@ -47,7 +47,7 @@ public class Server {
     //    com.InfoMontage.helper.clientServer.Server.ClientSocketHashtable clientSockets=null;
     //    com.InfoMontage.helper.clientServer.Server.ClientSocketHashtable clientSocketsToAdd=null;
     //    com.InfoMontage.helper.clientServer.Server.ClientListener clientSocketListener=null;
-    com.InfoMontage.helper.clientServer.Server.ClientSocketHashtable clientSockets=null;
+    public com.InfoMontage.helper.clientServer.Server.ClientSocketHashtable clientSockets=null;
     com.InfoMontage.helper.clientServer.Server.ClientSocketHashtable clientSocketsToAdd=null;
     java.util.LinkedList clientSocketsConnecting=new java.util.LinkedList();
     com.InfoMontage.helper.clientServer.Server.ClientListener clientSocketListener=null;
@@ -171,7 +171,7 @@ public class Server {
     java.nio.ByteBuffer stdTmpBuff=java.nio.ByteBuffer.allocate(CommSock.ClientChannelBufferCapacity);
     java.util.HashSet byteBufferPool=null;
     
-    class ClientSocketHashtable extends java.util.Hashtable {
+    public class ClientSocketHashtable extends java.util.Hashtable {
         
         public ClientSocketHashtable(int c) {
             super(c);
@@ -224,8 +224,8 @@ public class Server {
     }
     
     class ClientListener extends Thread {
-        //        java.nio.channels.ServerSocketChannel ssc=null;
-        java.net.ServerSocket ss=null;
+        java.nio.channels.ServerSocketChannel ssc=null;
+        //        java.net.ServerSocket ss=null;
         static final boolean debugLogging=true;
         
         /**
@@ -234,94 +234,94 @@ public class Server {
          */
         public ClientListener(int port) throws IOException {
             super("ClientListenerThread");
-            //            ssc=java.nio.channels.ServerSocketChannel.open();
-            //            ss=ssc.socket();
-            ServerSocketFactory ssf=null;
-            if (!CommSock.UseDefaultSocketFactory)
-                if (CommSock.SecureConnection)
-                    ssf = getServerSocketFactory(app, "TLS");
-                else
-                    // TBD: don't use default...
-                    ssf = ServerSocketFactory.getDefault();
-            else
-                if (CommSock.SecureConnection)
-                    // not sure default makes sense
-                    ssf = SSLServerSocketFactory.getDefault();
-                else
-                    ssf = ServerSocketFactory.getDefault();
-            ss = ssf.createServerSocket(port);
-            if (CommSock.SecureConnection) {
-                if (debugLogging) { // TBD: use logging
-                    String[] sa;
-                    System.out.println("Enabled Protocols:");
-                    sa=((SSLServerSocket)ss).getEnabledProtocols();
-                    for (int i=0; i<sa.length; i++)
-                        System.out.println("["+(i+1)+"] "+sa[i]);
-                    System.out.println("Enabled CipherSuites:");
-                    sa=((SSLServerSocket)ss).getEnabledCipherSuites();
-                    for (int i=0; i<sa.length; i++)
-                        System.out.println("["+(i+1)+"] "+sa[i]);
-                }
-                ((SSLServerSocket)ss).setNeedClientAuth(CommSock.AuthenticateClient);
-                ((SSLServerSocket)ss).setEnableSessionCreation(true);
-                ((SSLServerSocket)ss).setUseClientMode(false);
-            }
-            //            ss.bind(new java.net.InetSocketAddress(port));
-            //            ssc.configureBlocking(false);
+            ssc=java.nio.channels.ServerSocketChannel.open();
+            java.net.ServerSocket ss=ssc.socket();
+            //            ServerSocketFactory ssf=null;
+            //            if (!CommSock.UseDefaultSocketFactory)
+            //                if (CommSock.SecureConnection)
+            //                    ssf = getServerSocketFactory(app, "TLS");
+            //                else
+            //                    // TBD: don't use default...
+            //                    ssf = ServerSocketFactory.getDefault();
+            //            else
+            //                if (CommSock.SecureConnection)
+            //                    // not sure default makes sense
+            //                    ssf = SSLServerSocketFactory.getDefault();
+            //                else
+            //                    ssf = ServerSocketFactory.getDefault();
+            //            ss = ssf.createServerSocket(port);
+            //            if (CommSock.SecureConnection) {
+            //                if (debugLogging) { // TBD: use logging
+            //                    String[] sa;
+            //                    System.out.println("Enabled Protocols:");
+            //                    sa=((SSLServerSocket)ss).getEnabledProtocols();
+            //                    for (int i=0; i<sa.length; i++)
+            //                        System.out.println("["+(i+1)+"] "+sa[i]);
+            //                    System.out.println("Enabled CipherSuites:");
+            //                    sa=((SSLServerSocket)ss).getEnabledCipherSuites();
+            //                    for (int i=0; i<sa.length; i++)
+            //                        System.out.println("["+(i+1)+"] "+sa[i]);
+            //                }
+            //                ((SSLServerSocket)ss).setNeedClientAuth(CommSock.AuthenticateClient);
+            //                ((SSLServerSocket)ss).setEnableSessionCreation(true);
+            //                ((SSLServerSocket)ss).setUseClientMode(false);
+            //            }
+            ss.bind(new java.net.InetSocketAddress(port));
+            ssc.configureBlocking(false);
         }
         
         public void run() {
-            //            java.nio.channels.SocketChannel sc=null;
-            Socket s = null;
+            java.nio.channels.SocketChannel sc=null;
+            //            Socket s = null;
             boolean didSomething=false;
             while(true) {
                 didSomething=false;
                 try {
                     // blocks until connection made
-                    //                    sc=ssc.accept();
-                    s=ss.accept();
+                    sc=ssc.accept();
+                    //                    s=ss.accept();
                 } catch ( IOException e ) {
                     System.err.println("Error while listening for clients!");
                     System.err.println(e.getMessage());
                     e.printStackTrace();
-                    //                    sc=null;
-                    s=null;
+                    sc=null;
+                    //                    s=null;
                 }
-                //                if (sc!=null) {
-                if (s!=null) {
+                if (sc!=null) {
+                    //                if (s!=null) {
                     didSomething=true;
                     try {
-                        //                        sc.configureBlocking(false);
-                        s.setSoLinger(false,0); // TBD: make tunable
-                        s.setSoTimeout(CommSock.SocketTimoutMs);
+                        sc.configureBlocking(false);
+                        //                        s.setSoLinger(false,0); // TBD: make tunable
+                        //                        s.setSoTimeout(CommSock.SocketTimoutMs);
                         // IPTOS_RELIABILITY | IPTOS_LOWDELAY = 0x4 + 0x10
-                        s.setTrafficClass(20);
-                        s.setKeepAlive(true);
+                        //                        s.setTrafficClass(20);
+                        //                        s.setKeepAlive(true);
                     } catch ( IOException e ) {
                         System.err.println("Error while unblocking client channel!");
                         System.err.println(e.getMessage());
                         e.printStackTrace();
                         try {
-                            //                            sc.close();
-                            s.close();
+                            sc.close();
+                            //                            s.close();
                         } catch ( IOException se ) {
                             System.err.println("Secondary error while closing client channel!");
                             System.err.println(se.getMessage());
                             se.printStackTrace();
                         } finally {
-                            //                            sc=null;
-                            s=null;
+                            sc=null;
+                            //                            s=null;
                         }
                     }
                 }
                 
                 // offload the rest to another thread
                 // this one should only do listening, not processing
-                //                if (sc!=null) {
-                if (s!=null) {
+                if (sc!=null) {
+                    //                if (s!=null) {
                     // internalUpdateClientsConnecting(1);
-                    //                    com.InfoMontage.helper.clientServer.Server.ClientConnector tcct=null;
                     com.InfoMontage.helper.clientServer.Server.ClientConnector tcct=null;
+                    //                    com.InfoMontage.helper.clientServer.Server.ClientConnector tcct=null;
                     // this next is questionable...
                     //                    while (inactiveClientConnectionThreadsList.isEmpty())
                     //                        yield();
@@ -329,8 +329,8 @@ public class Server {
                     while (tcct==null)
                         tcct=(com.InfoMontage.helper.clientServer.Server.ClientConnector)inactiveClientConnectionThreadsList.remove(0);
                     activeClientConnectionThreadsList.add(tcct);
-                    //                    tcct.setSocketChannel(sc);
-                    tcct.setSocket(s);
+                    tcct.setSocketChannel(sc);
+                    //                    tcct.setSocket(s);
                     // long st=System.currentTimeMillis();
                     tcct.start();
                     // st-=System.currentTimeMillis();
@@ -346,8 +346,8 @@ public class Server {
                 //                    System.err.println(e.getMessage());
                 //                    e.printStackTrace();
                 //                }
-                //                sc=null;
-                s=null;
+                sc=null;
+                //                s=null;
             }
         }
     }
@@ -355,54 +355,54 @@ public class Server {
 //    protected abstract UserData ProcessLogin(ClientServerSocket s);
     
     class ClientConnector extends Thread {
-        //        java.nio.channels.SocketChannel sc;
-        Socket s;
+        java.nio.channels.SocketChannel sc;
+        //        Socket s;
         
         public ClientConnector(ThreadGroup tg) {
             super(tg,"");
-            //            sc=null;
-            s=null;
+            sc=null;
+            //            s=null;
         }
         
-        //        public ClientConnector(java.nio.channels.SocketChannel s) {
-        public ClientConnector(ThreadGroup tg, Socket is) {
+        public ClientConnector(ThreadGroup tg, java.nio.channels.SocketChannel s) {
+            //        public ClientConnector(ThreadGroup tg, Socket is) {
             super(tg,"");
-            //            sc=s;
-            s=is;
+            sc=s;
+            //            s=is;
         }
         
-        //        public void setSocketChannel(java.nio.channels.SocketChannel s) {
-        public void setSocket(Socket is) {
-            //            sc=s;
-            s=is;
+        public void setSocketChannel(java.nio.channels.SocketChannel s) {
+            //        public void setSocket(Socket is) {
+            sc=s;
+            //            s=is;
         }
         
         public void run() {
             internalUpdateClientsConnecting(1);
-            //            if (sc!=null) {
-            if (s!=null) {
+            if (sc!=null) {
+                //            if (s!=null) {
                 // do initial connection protocol
                 if (clientSockets.size() < CommSock.MaxClientSocketCapacity) {
                     long st=System.currentTimeMillis();
-                    ClientServerSocket css=new ClientServerSocket(s);
+                    ClientServerSocket css=new ClientServerSocket(sc);
                     st-=System.currentTimeMillis();
                     System.err.println("ClientServerSocket creation took "+(-st)+" ms");
                     System.err.flush();
                     boolean validLoginToAdd = false;
                     boolean validLogin = false;
                     String loginNakReason = null;
-                    //                    if (css.sc!=null) {
-                    if (css!=null && css.getSock()!=null) {
+                    if (css.sc!=null) {
+                        //                    if (css!=null && css.getSock()!=null) {
                         CommElement ne;
                         //                        css.put(CommTrans.CommTagTransAck)
                         //                        .put(CommTrans.CommTagTransVers,CommTrans.CommTransVersion)
-                        //                        .put(CommTrans.CommTagHello,HelloMessage(s))
+                        //                        .put(CommTrans.CommTagHello,HelloMessage(sc.socket()))
                         //                        .put(CommTrans.CommTagTransLoginReq,LoginReqs());
                         css.put(CommTrans.CommSeqBegin.buildBuffer( new Object[] {
                             Byte.valueOf(CommTrans.CommTransVersion),
-//                            HelloMessage(s),
-//                            new Byte(LoginReqs())
-                            app.HelloMessage(s),
+                            //                            HelloMessage(s),
+                            //                            new Byte(LoginReqs())
+                            app.HelloMessage(sc.socket()),
                             Byte.valueOf(app.LoginReqs())
                         } ) );
                         if (css.send())
@@ -455,19 +455,19 @@ public class Server {
                         +" clients has been reached, please try again later." } ) )
                         .put(CommTrans.CommDelimiterByte);
                         try {
-                            //                        sc.write(stdTmpBuff);
-                            s.getOutputStream()
-                            .write(stdTmpBuff.array(),stdTmpBuff.arrayOffset(),stdTmpBuff.remaining());
+                            sc.write(stdTmpBuff);
+                            //                            s.getOutputStream()
+                            //                            .write(stdTmpBuff.array(),stdTmpBuff.arrayOffset(),stdTmpBuff.remaining());
                         } catch ( IOException e ) {
                             System.err.println("Error while writing client channel!");
                             System.err.println(e.getMessage());
                             e.printStackTrace();
-                            s=null;
+                            sc=null;
                         }
                         stdTmpBuff.clear();
                         //                       internalUpdateClientsConnecting(-1);
                 }
-                s=null;
+                sc=null;
             }
             internalUpdateClientsConnecting(-1);
             internalUpdateClientsConnected();
@@ -570,7 +570,7 @@ public class Server {
                                     // clear buffer for use
                                     System.err.println("Sending '"
                                     +CommTrans.CommTagTransHB.toString()
-                                    +" to '"+s.getSock().getRemoteSocketAddress().toString()
+                                    +" to '"+s.getSc().socket().getRemoteSocketAddress().toString()
                                     +"'");
                                     s.clearCommBuff();
                                     if (s.put(CommTrans.CommTagTransHB).send()) {
@@ -618,11 +618,11 @@ public class Server {
                                 //                                System.err.println("Recieved '"+java.nio.charset.Charset.forName("US-ASCII").decode(s.getCommBuff().asReadOnlyBuffer())+"'="+s.getCommBuff().position()+","+s.getCommBuff().limit()+","+s.getCommBuff().capacity());
                                 System.err.println("Recieved '"
                                 +CommElement.displayByteBuffer(s.getCommBuff())
-                                +" from '"+s.getSock().getRemoteSocketAddress().toString()
+                                +" from '"+s.getSc().socket().getRemoteSocketAddress().toString()
                                 +"'");
                                 s.getCommBuff().mark();
                                 ne=CommElement.nextElement(s.getCommBuff());
-                                if (ne.tag==CommTrans.CommTagTransHBAck) {
+                                if (ne != null && ne.tag==CommTrans.CommTagTransHBAck) {
                                     System.err.println("Got HB");
                                     // only one HB at a time, and HB can be only thing sent
                                     if (s.numHbAckNeeded>0) {
@@ -630,7 +630,8 @@ public class Server {
                                         internalUpdateHbsPending(-1);
                                     } else { // wierd - got HB but didn't need it
                                     }
-                                } else {
+                                    s.clearCommBuff();
+                                } else if (ne != null) {
                                     s.getCommBuff().reset();
                                     com.InfoMontage.helper.clientServer.Server.ClientMessageProcessor tmpt=null;
                                     while (tmpt==null)
@@ -639,9 +640,11 @@ public class Server {
                                     // tmpt.setByteBuffer(s.commBuff.asReadOnlyBuffer());
                                     tmpt.setClientServerSocket(s);
                                     tmpt.start();
+                                } else {
+                                    System.err.println("Recieved unparseable message!  Buffer is:\n"
+                                    +CommElement.displayByteBuffer(s.getCommBuff()));
+                                    s.clearCommBuff();
                                 }
-                                // clear the input
-                                s.clearCommBuff();
                             } // else recieve failed - just continue
                             // (cleanup will happen next pass thru loop)
                             // or recv not yet complete
@@ -813,6 +816,8 @@ public class Server {
                                 s.put(CommTrans.CommTagTransNakConn,"Recieved unparseable message!").send();
                                 s.close();
                                 s=null;
+                            } else {
+                                s.clearCommBuff();
                             }
                         }
                     }

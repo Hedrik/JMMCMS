@@ -96,6 +96,7 @@ public final class DefaultCommConstants {
         public static final CommTag CommTagLoginPasswd = new CommTag("LPas","saPL");
         public static final CommTag CommTagHello = new CommTag("Helo","eloH");
         public static final CommTag CommTagWelcomeMsg = new CommTag("Welc","cleW");
+        public static final CommTag CommTagChatMsg = new CommTag("Chat","tahC");
         
         public static final CommSequence CommSeqBegin=new CommSequence(new CommTag[] {
             CommTagTransAck,
@@ -114,6 +115,9 @@ public final class DefaultCommConstants {
 
         public static final CommSequence CommSeqLoginFailure=new CommSequence(new CommTag[] {
             CommTagTransNakConn } );
+
+        public static final CommSequence CommSeqChat=new CommSequence(new CommTag[] {
+            CommTagChatMsg } );
 
     }
     

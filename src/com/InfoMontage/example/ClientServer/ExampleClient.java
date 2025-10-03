@@ -26,6 +26,9 @@
 package com.InfoMontage.example.ClientServer;
 
 import com.InfoMontage.helper.clientServer.DefaultCommConstants.*;
+import java.awt.EventQueue;
+
+import javax.swing.Icon;
 
 /**
  *
@@ -38,6 +41,8 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
     //    public ClientServer.ClientApp.MyClient myClient;
     //    public ClientApp.MyClient myClient;
     public com.InfoMontage.helper.clientServer.Client myClient;
+    private javax.swing.ImageIcon heartFullIcon;
+    private javax.swing.ImageIcon heartDisabledIcon;
     
     //    public class MyClient extends com.InfoMontage.helper.clientServer.Client {
     
@@ -50,7 +55,7 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
     //        }
     
     public void setStatusText(String statusType, String msg) {
-        if (statusType=="Heartbeat")
+        if ("Heartbeat".equals(statusType))
             this.doHB();
         else
             this.setStatusDisplay(false, statusType+": "+msg);
@@ -87,6 +92,11 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
     }
     
     public boolean acceptRecievedMsg(com.InfoMontage.helper.clientServer.ClientServerSocket s) {
+        com.InfoMontage.helper.clientServer.CommElement e = com.InfoMontage.helper.clientServer.CommElement.nextElement(s.getCommBuff());
+        if (e != null && e.tag == CommTrans.CommTagChatMsg) {
+            setStatusDisplay(false, "Chat: " + e.pString + "\n");
+            return true;
+        }
         return false;
     }
     
@@ -105,19 +115,25 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
     }
     
     public void setStatusDisplay( Boolean clearFlag, String text ) {
-        synchronized (statusDisplayTextArea) {
+        EventQueue.invokeLater(() -> {
             if (clearFlag)
                 statusDisplayTextArea.setText(text);
             else
                 statusDisplayTextArea.append(text);
-            statusDisplayTextArea.paintImmediately(statusDisplayTextArea.getBounds());
-        }
+        });
     }
     
     public void doHB() {
         synchronized (heartBeatIcon) {
-            heartBeatIcon.setEnabled(!heartBeatIcon.isEnabled());
-            heartBeatIcon.paintImmediately(heartBeatIcon.getBounds());
+            Icon nextHeart = (heartBeatIcon.getIcon() == heartFullIcon)?heartDisabledIcon:heartFullIcon;
+            EventQueue.invokeLater(() -> {
+                heartBeatIcon.setIcon(nextHeart);
+            });
+        }
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            // ignore
         }
     }
     
@@ -220,14 +236,15 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
         heartBeatIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         java.net.URL imgURL = getClass().getResource("/com/InfoMontage/example/ClientServer/Heart_full.png");
         if (imgURL != null) {
-            heartBeatIcon.setIcon(new javax.swing.ImageIcon(imgURL));
+            heartFullIcon = new javax.swing.ImageIcon(imgURL);
+            heartBeatIcon.setIcon(heartFullIcon);
         } else {
             System.err.println("Resource not found: /com/InfoMontage/example/ClientServer/Heart_full.png");
         }
         heartBeatIcon.setAlignmentX(0.5F);
         java.net.URL disabledImgURL = getClass().getResource("/com/InfoMontage/example/ClientServer/Heart_disabled.png");
         if (disabledImgURL != null) {
-            heartBeatIcon.setDisabledIcon(new javax.swing.ImageIcon(disabledImgURL));
+            heartDisabledIcon = new javax.swing.ImageIcon(disabledImgURL);
         } else {
             System.err.println("Resource not found: /com/InfoMontage/example/ClientServer/Heart_disabled.png");
         }
@@ -235,7 +252,7 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
         heartBeatIcon.setMaximumSize(new java.awt.Dimension(39, 50));
         heartBeatIcon.setMinimumSize(new java.awt.Dimension(35, 30));
         heartBeatIcon.setPreferredSize(new java.awt.Dimension(39, 50));
-        heartBeatIcon.setEnabled(false);
+        heartBeatIcon.setEnabled(true);
         heartBeatIcon.setVisible(false);
         jPanel8.add(heartBeatIcon, java.awt.BorderLayout.WEST);
 
@@ -363,6 +380,24 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
 
         getContentPane().add(loginInfoPanel);
 
+        chatPanel = new javax.swing.JPanel();
+        chatTextField = new javax.swing.JTextField();
+        sendChatButton = new javax.swing.JButton();
+
+        chatPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        chatTextField.setPreferredSize(new java.awt.Dimension(300, 20));
+        chatPanel.add(chatTextField);
+
+        sendChatButton.setText("Send");
+        sendChatButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendChatButtonActionPerformed(evt);
+            }
+        });
+        chatPanel.add(sendChatButton);
+
+        getContentPane().add(chatPanel);
+
         fileMenu.setText("File");
         openMenuItem.setText("Open");
         fileMenu.add(openMenuItem);
@@ -436,13 +471,24 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
                     loginButton.setText("Log in");
                 loginButton.setSelected(false);
                 loginButton.paintImmediately(loginButton.getBounds());
-                synchronized (heartBeatIcon) {
-                    heartBeatIcon.setVisible(true);
-                }
+                heartBeatIcon.setVisible(true);
             }
         };
         ctst.start();
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void sendChatButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        Thread ctst=new Thread("SendChatThread") {
+            public void run() {
+                if (myClient.serverSocket != null && myClient.serverSocket.isConnected()) {
+                    myClient.serverSocket.clearCommBuff();
+                    myClient.serverSocket.put(CommTrans.CommTagChatMsg, chatTextField.getText()).send();
+                    chatTextField.setText("");
+                }
+            }
+        };
+        ctst.start();
+    }
     
     /** Exit the Application */
     private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
@@ -503,6 +549,9 @@ implements com.InfoMontage.helper.clientServer.ClientApp {
     private javax.swing.JTextField loginNameTextField;
     private javax.swing.JPasswordField loginPasswordField;
     private javax.swing.JLabel loginPasswordLabel;
+    private javax.swing.JPanel chatPanel;
+    private javax.swing.JTextField chatTextField;
+    private javax.swing.JButton sendChatButton;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;

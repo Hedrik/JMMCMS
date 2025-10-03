@@ -41,11 +41,11 @@ import com.InfoMontage.helper.clientServer.CommElement.*;
  */
 public class ClientServerSocket {
     private final ReentrantLock lock = new ReentrantLock();
-    //    public SocketChannel s=null;
-    private volatile Socket sock=null;
+    public SocketChannel sc=null;
+    //    private volatile Socket sock=null;
     private volatile ByteBuffer commBuff=null;
-    private InputStream inStream=null;
-    private OutputStream outStream=null;
+    //    private InputStream inStream=null;
+    //    private OutputStream outStream=null;
     public ByteBuffer inBuff=null;
     public ByteBuffer outBuff=null;
     public Set buffPool=null;
@@ -55,8 +55,7 @@ public class ClientServerSocket {
     public volatile int numFailedHbs=0;
     private volatile boolean recvComplete=false;
     
-    //    public ClientServerSocket_New(SocketChannel sockCh) {
-    public ClientServerSocket(Socket s) {
+    public ClientServerSocket(SocketChannel sockCh) {
         //        if (sockCh==null)
         //        if (s==null)
         //            throw new RuntimeException("Attempt to create a socket with a null channel!");
@@ -65,13 +64,12 @@ public class ClientServerSocket {
         //            if (bb==null)
         //                throw new RuntimeException("Could not allocate buffer for channel!");
         //            else
-        //                initClientServerSocket(sockCh,bb);
-        initClientServerSocket(s,bb);
+        initClientServerSocket(sockCh,bb);
+        //        initClientServerSocket(s,bb);
         //        }
     }
     
-    //    public ClientServerSocket_New(SocketChannel sockCh, ByteBuffer bb) {
-    public ClientServerSocket(Socket s, ByteBuffer bb) {
+    public ClientServerSocket(SocketChannel sockCh, ByteBuffer bb) {
         //        if (sockCh==null)
         //        if (s==null)
         //            throw new RuntimeException("Attempt to create a socket with a null channel!");
@@ -79,13 +77,12 @@ public class ClientServerSocket {
         //            if (bb==null)
         //                throw new RuntimeException("Attempt to create a socket with a null buffer for channel!");
         //            else
-        //                initClientServerSocket(sockCh,bb);
-        initClientServerSocket(s,bb);
+        initClientServerSocket(sockCh,bb);
+        //        initClientServerSocket(s,bb);
         //        }
     }
     
-    //    public ClientServerSocket_New(SocketChannel sockCh, Set bs) {
-    public ClientServerSocket(Socket s, Set bs) {
+    public ClientServerSocket(SocketChannel sockCh, Set bs) {
         //        if (sockCh==null)
         //        if (s==null)
         //            throw new RuntimeException("Attempt to create a socket with a null channel!");
@@ -103,23 +100,23 @@ public class ClientServerSocket {
                     i.remove();
                     buffPool=bs;
                     i=null;
-                    //                    initClientServerSocket(sockCh,bb);
-                    initClientServerSocket(s,bb);
+                    initClientServerSocket(sockCh,bb);
+                    //                    initClientServerSocket(s,bb);
                 }
             }
         }
         //        }
     }
     
-    //    public void initClientServerSocket( SocketChannel sockCh, ByteBuffer bb ) {
-    private void initClientServerSocket( Socket s, ByteBuffer bb ) {
-        //        if (sockCh==null)
-        if (s==null)
+    private void initClientServerSocket( SocketChannel sockCh, ByteBuffer bb ) {
+        //    private void initClientServerSocket( Socket s, ByteBuffer bb ) {
+        if (sockCh==null)
+            //        if (s==null)
             throw new RuntimeException("Attempt to initialize a socket with a null channel!");
         else {
-            synchronized (s) {
-                //            sc=sockCh;
-                sock=s;
+            synchronized (sockCh) {
+                sc=sockCh;
+                //                sock=s;
                 if (bb==null)
                     throw new RuntimeException("Attempt to initialize a socket with a null buffer for channel!");
                 else
@@ -128,37 +125,37 @@ public class ClientServerSocket {
                             throw new RuntimeException("Attempt to initialize a socket with a buffer that has no backing array!");
                         else
                             commBuff=bb;
-                        //            if (sc.isConnectionPending())
-                        if (!sock.isConnected())
-                            //                try {
-                            //                    long st=System.currentTimeMillis();
-                            //                    sc.finishConnect(); // time expensive?
-                            //                    st-=System.currentTimeMillis();
-                            //                    System.err.println("Connection finish took "+(-st)+" ms!");
-                            //                    System.err.flush();
-                            //                } catch (IOException e) {
-                            //                    System.err.println("Error while finishing channel connection!");
-                            //                    System.err.println(e.getMessage());
-                            //                    e.printStackTrace();
-                            //                    close();
-                            //                }
-                            //            else
-                            //              if (!sc.isConnected()) {
-                        {
-                            close();
-                            // throw new RuntimeException("Attempt to initialize a socket with an unconnected channel!");
-                            throw new NotYetConnectedException();
-                        }
-                        else {
+                        if (sc.isConnectionPending())
+                            //                        if (!sock.isConnected())
                             try {
-                                inStream=sock.getInputStream();
-                                outStream=sock.getOutputStream();
-                            } catch (IOException e ) {
+                                long st=System.currentTimeMillis();
+                                sc.finishConnect(); // time expensive?
+                                st-=System.currentTimeMillis();
+                                System.err.println("Connection finish took "+(-st)+" ms!");
+                                System.err.flush();
+                            } catch (IOException e) {
+                                System.err.println("Error while finishing channel connection!");
+                                System.err.println(e.getMessage());
+                                e.printStackTrace();
                                 close();
-                                // throw new RuntimeException("I/O error while getting streams from socket!");
+                            }
+                        else
+                            if (!sc.isConnected()) {
+                                //                        {
+                                close();
+                                // throw new RuntimeException("Attempt to initialize a socket with an unconnected channel!");
                                 throw new NotYetConnectedException();
                             }
-                        }
+                        //                        else {
+                        //                            try {
+                        //                                inStream=sock.getInputStream();
+                        //                                outStream=sock.getOutputStream();
+                        //                            } catch (IOException e ) {
+                        //                                close();
+                        //                                // throw new RuntimeException("I/O error while getting streams from socket!");
+                        //                                throw new NotYetConnectedException();
+                        //                            }
+                        //                        }
                     }
             }
         }
@@ -172,8 +169,8 @@ public class ClientServerSocket {
         lock.unlock();
     }
 
-    public Socket getSock() {
-        return sock;
+    public SocketChannel getSc() {
+        return sc;
     }
 
     public ByteBuffer getCommBuff() {
@@ -195,9 +192,7 @@ public class ClientServerSocket {
     public boolean isConnected() {
         lock.lock();
         try {
-            return ((sock != null) && (!sock.isClosed()) && (sock.isBound())
-            && (!sock.isInputShutdown()) && (!sock.isOutputShutdown())
-            && (sock.isConnected()) && (commBuff != null));
+            return ((sc != null) && (sc.isOpen()) && (sc.isConnected()) && (commBuff != null));
         } finally {
             lock.unlock();
         }
@@ -206,29 +201,29 @@ public class ClientServerSocket {
     public void close() {
         lock.lock();
         try {
-            //        if (sc!=null)
-            try {
-                if (inStream!=null) {
-                    inStream.close();
-                    inStream=null;
+            if (sc!=null)
+                try {
+                    //                if (inStream!=null) {
+                    //                    inStream.close();
+                    //                    inStream=null;
+                    //                }
+                    //                if (outStream!=null) {
+                    //                    outStream.close();
+                    //                    outStream=null;
+                    //                }
+                    //                if (sock!=null)
+                    //                    synchronized (sock) {
+                    sc.close();
+                    //                        sock.close();
+                    sc=null;
+                    //                        sock=null;
+                    //                    }
+                } catch ( IOException e ) {
+                    // We need to do anything about this, just report it
+                    System.err.println("Error while closing channel!");
+                    System.err.println(e.getMessage());
+                    e.printStackTrace();
                 }
-                if (outStream!=null) {
-                    outStream.close();
-                    outStream=null;
-                }
-                if (sock!=null)
-                    synchronized (sock) {
-                        //                sc.close();
-                        sock.close();
-                        //        sc=null;
-                        sock=null;
-                    }
-            } catch ( IOException e ) {
-                // We need to do anything about this, just report it
-                System.err.println("Error while closing channel!");
-                System.err.println(e.getMessage());
-                e.printStackTrace();
-            }
             if (commBuff!=null) {
                 synchronized (commBuff) {
                     if (buffPool!=null) {
@@ -253,14 +248,14 @@ public class ClientServerSocket {
         lock.lock();
         try {
             recvComplete=false;
-            //        if ((sc==null)||(commBuff==null)) {
-            if ((sock==null)||(commBuff==null)) {
+            if ((sc==null)||(commBuff==null)) {
+                //            if ((sock==null)||(commBuff==null)) {
                 close();
                 sendOk=false;
                 throw new NullPointerException("Attempt to send to null channel or out of null buffer!");
             } else
-                //            if (!sc.isConnected()) {
-                if (!sock.isConnected()) {
+                if (!sc.isConnected()) {
+                    //                if (!sock.isConnected()) {
                     close();
                     sendOk=false;
                 }
@@ -277,16 +272,15 @@ public class ClientServerSocket {
                                     throw new BufferOverflowException();
                                 commBuff.flip(); // makes buff ready to be written out
                             // System.err.println("Sending "+CommElement.displayByteBuffer(commBuff));
-                            int sent=0;
+                            int sent = commBuff.remaining();
                             try { // keep writing until done or error
-                                //                        while (commBuff.hasRemaining()) {
-                                //                            sc.write(commBuff);
-                                OutputStream os = sock.getOutputStream();
-                                os.write(commBuff.array(),commBuff.arrayOffset(),commBuff.remaining());
-                                os.flush();
-                                //                            Thread.yield(); // sleep instead?  lock on commBuff?
-                                //                        }
-                                sent=commBuff.remaining();
+                                while (commBuff.hasRemaining()) {
+                                    sc.write(commBuff);
+                                    //                                OutputStream os = sock.getOutputStream();
+                                    //                                os.write(commBuff.array(),commBuff.arrayOffset(),commBuff.remaining());
+                                    //                                os.flush();
+                                    Thread.yield(); // sleep instead?  lock on commBuff?
+                                }
                                 commBuff.clear(); // makes buff ready to be put into again
                                 // oughta maybe be compact()?
                             } catch ( IOException e ) {
@@ -314,15 +308,15 @@ public class ClientServerSocket {
             recvComplete=false;
             long tot=System.currentTimeMillis()+t;
             int cnb=0, nb=0;
-            //        if ((sc==null)||(commBuff==null)) {
-            if (sock==null) {
+            if ((sc==null)||(commBuff==null)) {
+                //            if (sock==null) {
                 close();
                 recvOk=false;
                 throw new NullPointerException("Attempt to recieve from null channel!");
             }
             else {
-                //            if (!sc.isConnected()) {
-                synchronized (sock) {
+                //if (!sc.isConnected()) {
+                    //                synchronized (sock) {
                     if (commBuff==null) {
                         close();
                         recvOk=false;
@@ -330,7 +324,8 @@ public class ClientServerSocket {
                     }
                     else {
                         synchronized (commBuff) {
-                            if (!sock.isConnected()) {
+                            if (!sc.isConnected()) {
+                                //                            if (!sock.isConnected()) {
                                 close();
                                 recvOk=false;
                             }
@@ -339,23 +334,22 @@ public class ClientServerSocket {
                                 try {
                                     while (((t>0)&&(System.currentTimeMillis()<tot)&&(cnb>-1))
                                     || ((t==0)&&(cnb>-1))) {
-                                        //                        cnb=sc.read(commBuff);
-                                        InputStream is=sock.getInputStream();
+                                        cnb=sc.read(commBuff);
+                                        //                                        InputStream is=sock.getInputStream();
                                         //                        System.err.println("InputStream ("+is+") has "+is.available()+" bytes available.");
-                                        cnb=0;
-                                        try {
-                                            cnb=is.read(commBuff.array()
-                                            ,commBuff.arrayOffset()+commBuff.position()
-                                            ,commBuff.remaining());
-                                        } catch ( SocketTimeoutException e ) {
-                                            //                            System.err.println("Timeout while reading channel!");
-                                            recvOk = false;
-                                            break;
-                                        }
+                                        //                                        cnb=0;
+                                        //                                        try {
+                                        //                                            cnb=is.read(commBuff.array()
+                                        //                                            ,commBuff.arrayOffset()+commBuff.position()
+                                        //                                            ,commBuff.remaining());
+                                        //                                        } catch ( SocketTimeoutException e ) {
+                                        //                            System.err.println("Timeout while reading channel!");
+                                        //                                            recvOk = false;
+                                        //                                            break;
+                                        //                                        }
                                         if (cnb > 0) {
                                             nb += cnb;
                                             System.err.println("recieved " + cnb + " bytes.  Subtotal=" + nb);
-                                            commBuff.position(commBuff.position() + cnb);
                                             if (commBuff.get(commBuff.position() - 1) == CommTrans.CommDelimiterByte) {
                                                 cnb = -1; // Found delimiter, exit loop
                                             } else if (!commBuff.hasRemaining()) {
@@ -416,7 +410,7 @@ public class ClientServerSocket {
                             }
                         }
                     }
-                }
+                //}
             }
         } finally {
             lock.unlock();
